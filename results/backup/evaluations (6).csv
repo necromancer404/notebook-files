@@ -1,0 +1,1415 @@
+timestamp_utc,sample_id,preset,judge_model,judge_provider,criterion,ground_truth,predicted_grade,total_score,overall_confidence,correctness_score,correctness_confidence,correctness_grade,correctness_summary,correctness_findings,correctness_model,correctness_provider,correctness_error,style_score,style_confidence,style_grade,style_summary,style_findings,style_model,style_provider,style_error,counteragent_score,counteragent_confidence,counteragent_grade,counteragent_summary,counteragent_findings,counteragent_model,counteragent_provider,counteragent_error,edge_cases_score,edge_cases_confidence,edge_cases_grade,edge_cases_summary,edge_cases_findings,edge_cases_model,edge_cases_provider,edge_cases_error,complexity_score,complexity_confidence,complexity_grade,complexity_summary,complexity_findings,complexity_model,complexity_provider,complexity_error,question,submission
+,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+2026-09-14T17:12:33.090873+00:00,all_samples:16,mix:mixed,gemini-3.1-flash-lite | gemini-3.5-flash-lite | gemma3:12b | openai/gpt-oss-20b | qwen2.5-coder:14b,gemini | groq | ollama,Overall program correctness,B,B,84.8,0.9021,85,0.9,B,"The program correctly handles addition, subtraction, multiplication, and division of complex numbers and formats the output to three decimal places. However, it lacks error handling for invalid operations and does not handle division by zero.","The program correctly performs addition, subtraction, multiplication, and division of complex numbers. | The output is formatted to three decimal places using `fixed` and `cout.precision(3);`. | The program does not handle invalid operations (e.g., if the input operation is not 'A', 'M', 'S', or 'D'). | The program does not handle division by zero, which could lead to runtime errors.",qwen2.5-coder:14b,ollama,,88,0.8,B,"The submission is generally readable and functional, but it exhibits several style and maintainability issues that reduce its overall quality. The code uses nested if-else blocks instead of clearer else-if chains, repeats formatting calls in each branch, and includes unnecessary output statements during input. Indentation is inconsistent, and there is a lack of comments or documentation. These problems are noticeable but do not severely hinder comprehension, so the submission earns a solid B.","Nested if-else structure instead of else-if chains | Repeated calls to set fixed and precision in each branch | Extraneous output (cout << "" "") during input | Inconsistent indentation and spacing | No comments or documentation",openai/gpt-oss-20b,groq,,75,1,C,"The program correctly implements addition, subtraction, and multiplication of complex numbers. However, the division operation is incorrect, and there is no handling for invalid input or other operations. The code also has formatting issues with the input prompts.","Input: 1 2 3 4 A | Expected: 4.000 6.000 | Likely behavior: 4.000 6.000 | Why: Addition is implemented correctly. | Input: 1 2 3 4 S | Expected: -2.000 -2.000 | Likely behavior: -2.000 -2.000 | Why: Subtraction is implemented correctly. | Input: 1 2 3 4 M | Expected: 16.000 -4.000 | Likely behavior: 16.000 -4.000 | Why: Multiplication is implemented correctly. | Input: 1 2 3 4 D | Expected: 0.273 -0.546 | Likely behavior: 0.273 -0.546 | Why: The division operation is implemented incorrectly. The formula for complex division is (a+bi)/(c+di) = ((a*c + b*d)/(c^2 + d^2)) + ((b*c - a*d)/(c^2 + d^2))i. The current implementation is incorrect. | Input: 1 2 3 4 X | Expected: Program should handle invalid input | Likely behavior: Program will not handle invalid input and may produce unexpected results or crash. | Why: The program does not handle invalid operations. It only supports A, M, S, and D. Any other input will lead to incorrect behavior.",gemma3:12b,ollama,,85,1,B,"The student's submission correctly implements complex number operations (addition, subtraction, multiplication, division) along with the formatting requirement of 3 decimal places. However, there are minor issues regarding division by zero (when the denominator is zero) and extraneous prompt/space prints during input using `cout<<"" "";`, which might violate automated grading scripts that expect strictly raw input/output streams.","Division by zero is not handled explicitly, meaning division by a zero complex number will result in `inf` or `nan` outputs. | The code outputs spaces and newlines during the input sequence (`cout<<"" "";`), which deviates from standard silent input reading and could fail automated test cases expecting exact input-output stream matches. | The complex division formula implementation `(-1*real1*imag2 + real2*imag1)/(real2*real2 + imag2*imag2)` has a sign error for the numerator of the imaginary part. Standard division is $(c+di)/(e+fi) = \frac{(ac+bd) + (bc-ad)i}{e^2+f^2}$, whereas the student used $-ad+bc$ with an incorrect factor order, leading to an incorrect imaginary component for division.",gemini-3.5-flash-lite,gemini,,95,1,A,"The algorithm uses basic arithmetic operations for complex number manipulation, resulting in O(1) time and space complexity, which is optimal for this problem.","The time complexity is O(1) as it performs a constant number of arithmetic operations regardless of input values. | The space complexity is O(1) as it uses a fixed number of variables. | The approach is highly efficient and well within the constraints for processing two complex numbers. | The logic correctly implements complex arithmetic (addition, subtraction, multiplication, and division).",gemini-3.1-flash-lite,gemini,,"Write a program that takes as input two complex numbers and performs one of the following operations on them: addition, subtraction, multiplication, or division. The output should be the result of the operation, with 3 digits after the decimal point. The input should be two pairs of floating-point numbers indicating the real and imaginary parts of the complex numbers, separated by spaces, followed by a letter indicating the operation to be performed. The output should be two space-separated numbers, with the real part followed by the imaginary part.","#include<simplecpp>
+main_program{
+float real1,imag1,real2,imag2;
+char c;
+cin>>real1;
+cout<<"" "";
+cin>>imag1;
+cout<<"" "";
+cin>>real2;
+cout<<"" "";
+cin>>imag2;
+cout<<"" "";
+cin>>c;
+cout<<endl;
+         if(c=='A'){
+	cout << fixed;
+        cout.precision(3);	 
+	cout<<real1+real2<<"" ""<<imag1+imag2<<endl;
+	 }
+	 else{if(c=='M'){
+         cout << fixed;
+         cout.precision(3);
+	 cout<<(real1*real2 -imag1*imag2)<<"" ""<<(real1*imag2 + real2*imag1);
+	 }
+	 else{
+	 if(c=='S'){
+	  cout << fixed;
+        cout.precision(3);
+        cout<<real1-real2<<"" ""<<imag1-imag2<<endl;
+         }
+	 else{
+	 if(c=='D'){
+          cout << fixed;
+        cout.precision(3);
+        cout<<(real1*real2 +imag1*imag2)/(real2*real2 +imag2*imag2)<<"" ""<<(-1*real1*imag2 + real2*imag1)/(real2*real2 +imag2*imag2);
+
+         }
+
+	 }
+
+	 }
+	 }
+	 }"
+,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+2026-09-14T17:16:41.211775+00:00,all_samples:21,mix:mixed,gemini-3.1-flash-lite | gemini-3.5-flash-lite | gemma3:12b | openai/gpt-oss-20b | qwen2.5-coder:14b,gemini | groq | ollama,Overall program correctness,B,B,76,0.8948,75,0.9,C,"The program correctly converts binary integer and fractional parts to decimal and prints the result. However, it does not format the output to two decimal places.","The function `p1` correctly converts the binary integer part to a decimal integer. | The function `p2` correctly converts the binary fractional part to a decimal fraction. | The main program correctly reads two binary inputs, converts them using `p1` and `p2`, and prints the sum. | The output is not formatted to two decimal places, which is a minor issue.",qwen2.5-coder:14b,ollama,,80,0.8,C,"The submission demonstrates a clear structure with separate functions for integer and fractional conversion, but suffers from poor naming conventions, lack of comments, and inconsistent formatting. These style issues reduce readability and maintainability, though the overall code remains understandable.","Function names `p1` and `p2` are not descriptive of their purpose. | No comments or documentation are provided to explain logic or intent. | Indentation and spacing are inconsistent, making the code harder to read. | Magic numbers (e.g., 2, 10, -x) are used without explanation. | The code relies on `simplecpp` constructs (`main_program`) which may be unfamiliar to some readers.",openai/gpt-oss-20b,groq,,75,1,C,"The program attempts to convert binary numbers (integer and fractional parts) to decimal, but contains significant errors in the conversion logic, particularly in how it extracts digits from the binary input and applies the powers of 2. The fractional part conversion also has issues with the exponent calculation. The code also lacks proper rounding to two decimal places.","Input: 101 101 | Expected: 5.5 | Likely behavior: The integer part conversion (p1) will likely produce incorrect results due to the flawed digit extraction. The fractional part conversion (p2) will also likely produce incorrect results due to the flawed digit extraction and incorrect exponent calculation. The final sum will be incorrect. | Why: The digit extraction in both functions is incorrect. It uses `(bin) - ((bin/10)*10)` which is not a reliable way to extract the last digit of a number. Also, the fractional part conversion incorrectly calculates the power of 2 using a decreasing exponent. | Input: 11 11 | Expected: 3.5 | Likely behavior: Similar to the previous case, the digit extraction and exponent calculation are flawed, leading to an incorrect decimal representation. | Why: The digit extraction logic is flawed, and the fractional part conversion incorrectly calculates the power of 2. | Input: 1 1 | Expected: 1.5 | Likely behavior: The digit extraction and exponent calculation are flawed, leading to an incorrect decimal representation. | Why: The digit extraction logic is flawed, and the fractional part conversion incorrectly calculates the power of 2.",gemma3:12b,ollama,,85,0.95,B,"The student successfully implements the core functionality using separate functions for integer and fractional binary parts, and correctly prints the combined result. However, there are minor issues with formatting (not explicitly enforcing two decimal places via setprecision, though basic output is handled) and potential edge cases like zero inputs or precision concerns with standard integer math on binary representations.","The student used separate functions for integer (p1) and fractional (p2) parts as required. | The program handles standard inputs correctly by parsing digits using modulo and division. | The problem states to print the resulting value rounded to two decimal places, but the student only used standard cout without fixed and setprecision, which might not always show two trailing decimal places (e.g., if the output is an integer or single decimal). | Zero or empty inputs are partially handled by the loop conditions, but inputs like 0 for the fractional part could behave correctly since p2 would receive 0 and return 0.",gemini-3.5-flash-lite,gemini,,65,1,C,"The algorithm correctly implements the conversion logic, but fails to meet the specific output formatting requirement (rounding to two decimal places) and uses an approach for the fractional part that is sensitive to leading zeros.","The time complexity is O(d) where d is the number of digits in the input, which is efficient for standard integer-based binary representations. | The space complexity is O(1) as it uses a constant amount of extra space. | The program fails to use 'fixed' and 'setprecision(2)' from <iomanip>, resulting in default floating-point output rather than the requested two decimal places. | The fractional conversion logic (p2) relies on counting digits, which fails if the fractional part has leading zeros (e.g., 0.01 would be treated as 0.1), leading to incorrect decimal values. | The use of 'pow' with integers can lead to precision issues, though it is acceptable for small binary inputs.",gemini-3.1-flash-lite,gemini,,"Write a C++ program to convert a binary number (that may contain a fractional part) into its corresponding decimal value. The program should take two binary values as input, one representing the number before the radix point and the other representing the number after the radix point. The program should convert the binary values into their corresponding decimal values and print the resulting value rounded to two decimal places. The program should use functions to convert the integer and fractional binary parts into integer and double values, respectively, and add the integer and double values to obtain the final decimal value. The program should use the cout statement to print the resulting value with two digits after the decimal point.","#include<simplecpp>
+
+int p1(int bin){
+	int sum=0;
+	int n=0;
+	while(bin>0){
+		sum+=pow(2,n) * ((bin)-((bin/10)*10));
+		n++;
+		bin = bin/10;
+	}
+	
+	return sum;
+}
+
+float p2(int bin){
+	float sum=0;
+	int x=0,temp;
+	temp = bin;
+	while(bin>0){
+		bin=bin/10;
+		x++;
+	}
+	bin = temp;
+	while(bin>0){
+		sum+=float(pow(2,-x)) * ((bin)-((bin/10)*10));
+		x--;
+		bin = bin/10;
+	}
+
+	return sum;
+}
+
+
+
+main_program{
+	int x,y;
+	float s;
+	cin >> x >> y;
+	s=p1(x)+p2(y);
+	cout << s;
+}"
+2026-09-14T17:17:42.307875+00:00,all_samples:27,mix:mixed,gemini-3.1-flash-lite | gemini-3.5-flash-lite | gemma3:12b | openai/gpt-oss-20b | qwen2.5-coder:14b,gemini | groq | ollama,Function noOfDays: Condition to check the number of days in the month,B,B,71.95,0.9558,65,1,C,The function noOfDays is mostly correct but has a minor issue with printing instead of returning. The function oneWeekLater is mostly correct but has a minor issue with handling the transition from one month to another.,"Function noOfDays correctly returns the number of days for each month except for January, where it incorrectly prints '31' instead of returning it. | Function oneWeekLater correctly calculates the day 7 days later for most cases but fails to handle the transition from one month to another correctly. For example, oneWeekLater(24, 2) should return 3, but the current implementation does not handle the month transition properly.",qwen2.5-coder:14b,ollama,,70,0.9,D,"The submission demonstrates basic readability but suffers from several style and maintainability issues. Function names are clear, but the code mixes printing with returning, uses inconsistent indentation and brace placement, and repeats magic numbers for month lengths. The missing return for month 1 and the lack of a final return statement are significant problems that would hinder future maintenance. Overall, the code is understandable but needs improvement in consistency, structure, and adherence to clean coding practices.","Inconsistent indentation and brace usage. | Mixed use of cout and return in noOfDays; month 1 case prints instead of returning. | Missing return statement at the end of noOfDays, leading to undefined behavior. | Repeated magic numbers for month lengths; could be replaced with an array or switch. | No comments or documentation to explain logic. | Overall structure is simple but could be more consistent and maintainable.",openai/gpt-oss-20b,groq,,85,1,B,"The solution is mostly correct. The `noOfDays` function correctly calculates the number of days for most months, but it prints to `cout` instead of returning. The `oneWeekLater` function correctly calculates the new date, handling the wraparound case. However, the `noOfDays` function's printing behavior is a violation of the problem's constraints.","Input: 1 | Expected: 31 | Likely behavior: Prints '31' to cout, but does not return a value. | Why: The noOfDays function prints to cout instead of returning a value. This violates the problem statement.",gemma3:12b,ollama,,88,1,B,"The student implemented both required functions, but included an unnecessary and undesirable side effect in noOfDays for m == 1 where it prints to cout instead of returning a value. For all other months, values are correctly returned.","In function noOfDays, when m == 1, the code prints '31' to standard output using cout instead of returning the integer 31. | For m == 1, since no return statement is executed, the function exhibits undefined behavior upon completion, though other branches correctly return values. | Month boundary handling for February (28 days) and month-rollover logic in oneWeekLater are correctly implemented.",gemini-3.5-flash-lite,gemini,,65,1,C,"The algorithm is logically sound for the given constraints, but the implementation of noOfDays contains a side effect (printing to stdout) that violates the problem requirements and will likely cause issues in the provided main program.","The time complexity is O(1) as it uses a constant number of conditional checks. | The space complexity is O(1) as it uses a constant amount of memory. | The function noOfDays includes a 'cout' statement for m=1, which violates the requirement to only return the value and not print extra messages. | The logic for calculating the date one week later is correct, but it relies on the flawed noOfDays function. | The implementation is efficient enough for the problem, but the side effect in noOfDays is a significant functional error.",gemini-3.1-flash-lite,gemini,,"In this problem, you are required to write only two functions in the file implementation.cpp. A main program (main.cpp) is already provided and must not be modified.
+
+Function 1: noOfDays
+
+int noOfDays(int m)
+
+Write a function named noOfDays that takes a single integer m (1 to 12 inclusive) and returns the number of days in that month for the year 2025.
+
+You may refer to a calendar to determine the correct number of days for each month.
+
+Examples:
+
+noOfDays(7) must return 31  
+noOfDays(2) must return 28  
+
+When this function is called:
+- Argument m is guaranteed to be between 1 and 12.
+
+--------------------------------------------------
+
+Function 2: oneWeekLater
+
+int oneWeekLater(int d, int m)
+
+Write another function named oneWeekLater which MUST USE the function noOfDays.
+
+This function takes two integers:
+- d represents the day.
+- m represents the month.
+
+The function should return a single integer representing the day (between 1 and 31) that occurs exactly 7 days after the given day and month.
+
+Examples:
+
+oneWeekLater(20, 8) must return 27  
+oneWeekLater(24, 2) must return 3  
+
+Explanation:
+- 27 August is 7 days after 20 August.
+- 3 March is 7 days after 24 February.
+
+When this function is called:
+- Argument d is guaranteed to be between 1 and 31.
+- Argument m is guaranteed to be between 1 and 12.
+
+--------------------------------------------------
+
+Main Program
+
+A main program (main.cpp) is already provided. It reads the day and month from input and calls the functions noOfDays and oneWeekLater with appropriate arguments.
+
+You must only implement the required functions in implementation.cpp.
+
+--------------------------------------------------
+
+Note
+
+- Do not print any extra messages such as:
+  cout << ""Enter a number""
+  cout << ""The computed answer is""
+- Use cout only to print the computed final output.
+- Do not print unnecessary spaces.
+- Do not hard-code the answers.
+- If any test case passes by simply printing output without logic, marks will not be awarded.","#include<simplecpp>
+int noOfDays(int m){
+        if (m==1){
+                cout<< ""31""<< endl;
+        }
+        if (m==2){
+                return 28;}
+        if(m==3) {
+                return 31;}
+        if (m==4){
+                return 30;}
+        if (m==5){
+                return 31;}
+        if (m==6){
+                return 30;}
+        if (m==7){
+                return 31;}
+        if(m==8 ){
+                return  31;}
+        if(m==9){
+                return 30;}
+        if(m==10){
+                return 31;}
+        if(m==11){
+                return 30;}
+        if(m==12){
+                return 31;}
+
+}
+
+int oneWeekLater ( int d, int m){
+        int l = noOfDays (m);
+        if ( d+7 > l){
+                return d+7-l ;}
+        else
+                return d+7;
+}"
+2026-09-14T17:19:18.217830+00:00,all_samples:29,mix:mixed,gemini-3.1-flash-lite | gemini-3.5-flash-lite | gemma3:12b | openai/gpt-oss-20b | qwen2.5-coder:14b,gemini | groq | ollama,N^2 Algorithm,B,B,83,0.958,85,1,B,"The program correctly identifies the majority element and its frequency in the array. However, it does not handle the case where there is no majority element as per the problem statement.","The program correctly reads the input size and array elements. | It correctly counts the frequency of each element using an auxiliary array. | It correctly identifies the maximum frequency and prints the element(s) with that frequency. | The program assumes there is always a majority element, which is not explicitly stated in the problem constraints.",qwen2.5-coder:14b,ollama,,80,0.8,C,"The program is functional and readable, but variable names are vague and there are no comments to aid understanding. The use of a variable‑length array is non‑standard C++ and could be replaced with a vector. Overall maintainability is limited by these style issues.","Vague variable names (max, a, max1) reduce clarity | No comments or documentation | Use of non‑standard variable‑length array",openai/gpt-oss-20b,groq,,85,1,B,"The code correctly identifies and counts the occurrences of majority elements in the array. However, the problem statement specifies that there is only one majority element, but the code prints all elements with the maximum frequency. Also, the code uses a variable array `arr[n]`, which is a potential issue. While the constraints limit n to < 20, it's generally better to avoid variable-length arrays.","Input: 3 1 2 1 2 3 2 1 3 3 2 1 | Expected: 3 4 | Likely behavior: The code will print 3 4, 1 4, and 2 4. | Why: The code iterates through the frequency array `a` and prints any element whose frequency matches the maximum frequency `max1`. The problem states there is only one majority element, but the code doesn't enforce this constraint. | Input: 1 1 1 2 2 | Expected: 1 3 | Likely behavior: The code will print 1 3, 2 1. | Why: The code prints all elements with the maximum frequency, even though the problem states there is only one majority element.",gemma3:12b,ollama,,85,1,B,"The student implemented a frequency-array approach (counting sort/hash style) rather than an explicit O(N^2) algorithm, but it correctly handles general inputs and boundary conditions like single-element arrays and non-negative numbers. However, using `int a[max+1]` relies on variable-length arrays (VLAs, a non-standard C++ extension) and can fail or cause stack overflow if the maximum element value is very large.","Boundary case n=1 is handled correctly because the loops will run for a single element and correctly find the majority element and frequency 1. | Non-negative numbers are properly handled, and the array bounds start at 0 (`a[max+1]`), which fits the non-negative constraint. | Uses variable-length arrays (`int a[max+1]`), which is non-standard C++ and vulnerable to large element values causing stack overflow or runtime errors. | Does not use an $O(N^2)$ algorithm as specified in the focus criterion, but instead uses an $O(N + 	ext{max})$ counting approach.",gemini-3.5-flash-lite,gemini,,70,1,C,"The student implemented a frequency array (counting sort approach) instead of the requested O(N^2) algorithm. While the solution is efficient (O(N + max_element)), it fails to meet the specific focus criterion of the assignment.","The algorithm uses a frequency array approach with O(N + max_element) time complexity. | The problem explicitly requested an O(N^2) algorithm, which the student did not implement. | The logic correctly identifies all elements with the maximum frequency, which is more robust than the problem's assumption of a single majority element. | The space complexity is O(max_element), which is acceptable given the small constraints (n < 20).",gemini-3.1-flash-lite,gemini,,"Write a C++ program to take user input n, the size of a 1D integer array, followed by the array entries as inputs. The program should then determine the majority element of the array, i.e., the element which occurs the most often. It should then display the majority element and how many times it occurs in the array. You may assume that the array contains only non-negative numbers. You may also assume that the array contains only one majority element. 
+
+Input Format - Integers n, followed by elements of the integer-valued array.
+Output Format - Print the values of the majority elements followed by frequency (a separate line for each element). 
+
+Constraints
+n is a positive integer, n >= 1 and n < 20
+
+Sample input	12	3 1 2 1 2 3 2 1 3 3 2 1
+Sample output 	3 4	1 4	2 4","#include <iostream>
+using namespace std;
+int main(){
+	int n;
+	cin>>n;
+	int arr[n];
+	for(int i=0;i<n;i++){
+		cin>>arr[i];
+	}
+	int max=0;
+	for(int i=0;i<n;i++){
+		if(max<arr[i]){max=arr[i];}
+	}
+	int a[max+1];
+	for(int i=0;i<=max;i++){
+		a[i]=0;
+	}
+	for(int i=0;i<n;i++){
+		a[arr[i]]++;
+	}
+	int max1=0;
+	for(int i=0;i<=max;i++){
+		if(max1<a[i]){max1=a[i];}
+	}
+	for(int i=0;i<=max;i++){
+		if(a[i]==max1){cout<<i<<"" ""<<max1<<endl;}
+	}
+}"
+2026-09-14T17:20:42.441713+00:00,all_samples:31,mix:mixed,gemini-3.1-flash-lite | gemini-3.5-flash-lite | gemma3:12b | openai/gpt-oss-20b | qwen2.5-coder:14b,gemini | groq | ollama,calculation of final decimal number in main function by adding outputs from two functions,C,B,73.5,0.9506,75,1,C,"The program correctly converts binary integer and fractional parts to decimal and prints the result rounded to two decimal places. However, it does not use separate functions for the conversion as required by the focus criterion.","The program correctly handles the conversion of the binary integer part to a decimal integer. | The program correctly handles the conversion of the binary fractional part to a decimal double. | The program correctly adds the integer and fractional decimal values to get the final result. | The program correctly prints the result rounded to two decimal places. | The program does not use separate functions for converting the integer and fractional binary parts, which is a requirement of the focus criterion.",qwen2.5-coder:14b,ollama,,65,0.8,D,"The submission is functional but lacks several key style and maintainability features. Variable names are ambiguous, there are no functions as required, magic numbers are used, and the code lacks comments and consistent formatting. These issues reduce readability and future maintainability.","Variable names such as `whole`, `decimal`, `integer`, and `point` are not descriptive and can be confusing. | The program does not use separate functions for converting the integer and fractional parts, violating the problem requirement and reducing modularity. | Magic numbers (e.g., 0.00, 10, 2) are used directly in calculations without explanation. | Formatting is inconsistent: mixed indentation, no spacing around operators, and lack of line breaks for readability. | No comments or documentation are provided to explain the logic or purpose of code blocks. | Use of `float` for the fractional part may lead to precision issues; `double` would be more appropriate.",openai/gpt-oss-20b,groq,,85,1,B,"The program correctly converts the integer and fractional binary parts to decimal and adds them. However, the code for determining the number of digits in the fractional part is flawed and will lead to incorrect results for certain inputs. The code also uses `pow` which can introduce floating-point precision issues.","Input: 101 101 | Expected: 5.25 | Likely behavior: The fractional part calculation is incorrect. The code calculates the number of digits in the fractional part incorrectly, leading to an incorrect decimal value. | Why: The code to determine the number of digits in the decimal part is flawed. The while loop `while( decimal >= pow(10,r))` and the subsequent if statement `if(decimal == pow(10,r))` do not correctly determine the number of digits. For example, if decimal is 101, r becomes 3, and then r becomes 4. This leads to incorrect powers of 2 being used in the fractional part calculation.",gemma3:12b,ollama,,65,1,C,"The student's submission correctly implements the conversion logic for both integer and fractional binary parts and adds them together. However, it fails to use separate functions to convert the integer and fractional parts as required by the problem statement, and places the logic directly inside the main function.","The problem statement explicitly requires the program to 'use functions to convert the integer and fractional binary parts into integer and double values', but the student implements all logic directly inside the main program without defining or using custom functions. | Edge case handling for zero inputs (e.g., inputting 0 for both parts) is handled reasonably well by loops skipping, though precision formatting using `fixed` and `setprecision(2)` is correctly included.",gemini-3.5-flash-lite,gemini,,70,1,C,"The algorithm correctly implements the conversion logic, but the use of integer-based input for the fractional part is logically flawed for binary representation.","The time complexity is O(log N + log M) where N is the integer part and M is the fractional part, which is efficient. | The space complexity is O(1), which is optimal. | The approach of reading the fractional part as an integer (e.g., inputting 101 for 0.101) fails to correctly handle leading zeros in the fractional part (e.g., 0.01 would be read as 1). | The logic for calculating the power of 2 for the fractional part is brittle due to the reliance on the number of digits in the integer representation of the fractional part. | The core requirement of using separate functions for integer and fractional conversion was not met, as the logic is implemented directly within the main_program block.",gemini-3.1-flash-lite,gemini,,"Write a C++ program to convert a binary number (that may contain a fractional part) into its corresponding decimal value. The program should take two binary values as input, one representing the number before the radix point and the other representing the number after the radix point. The program should convert the binary values into their corresponding decimal values and print the resulting value rounded to two decimal places. The program should use functions to convert the integer and fractional binary parts into integer and double values, respectively, and add the integer and double values to obtain the final decimal value. The program should use the cout statement to print the resulting value with two digits after the decimal point.","#include<simplecpp>
+main_program
+{
+	int whole, decimal, i=0, integer = 0;
+	float point = 0.00;
+	cin >> whole >>  decimal;
+	while(whole>0)
+	{
+		integer += (whole%10)*(pow(2,i));
+		whole = whole/10;
+		i++;
+	}
+	int r=0;
+	while( decimal >= pow(10,r))
+	{
+		r++;
+	}
+	if(decimal == pow(10,r))
+	{
+		r++;
+	}
+	while(decimal >0)
+	{
+		point += (decimal%10)*(pow(2,-r));
+		decimal = decimal/10;
+		r--;
+	}
+	cout << fixed;
+	cout.precision(2);
+	cout << integer + point << endl;
+}"
+,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+2026-09-14T17:25:00.296880+00:00,all_samples:36,mix:mixed,gemini-3.1-flash-lite | gemini-3.5-flash-lite | gemma3:12b | openai/gpt-oss-20b | qwen2.5-coder:14b,gemini | groq | ollama,Is x value updated correctly?,C,C,64.3,0.7204,75,0.9,C,The program attempts to approximate the square root using the Babylonian Algorithm but has issues with the initial x value update and the final output.,"The initial x value update is incorrect. The while loop increments x until x*x is greater than or equal to num, but it should start with a more reasonable guess. | The final output is rounded to three decimal places, but the Babylonian Algorithm is not fully implemented correctly. | The program does not handle the case where the input number is zero or negative, which is not specified in the problem statement but is a potential issue.",qwen2.5-coder:14b,ollama,,88,0.8,B,"The submission demonstrates a clear, straightforward implementation of the Babylonian algorithm with readable variable names and a logical flow. However, the code lacks comments, uses inconsistent indentation, and relies on magic numbers (e.g., 0.1, 2) without explanation. The overall structure is simple but could benefit from function extraction for clarity and maintainability. No dead code is present, and the algorithmic logic is correctly expressed, but the style choices slightly reduce readability.","Variable names are concise but could be more descriptive (e.g., use ""approx"" instead of ""x""). | Missing comments or documentation explaining the purpose of each block or the choice of step sizes. | Inconsistent indentation and spacing make the code harder to scan quickly. | Magic numbers (0.1, 2) are used directly; defining them as constants would improve clarity. | The algorithm is implemented in a single linear block; extracting the iterative refinement into a separate function would enhance maintainability.",openai/gpt-oss-20b,groq,,75,1,C,"The program attempts to implement the Babylonian algorithm but contains significant inefficiencies and inaccuracies in the initial approximation and iterative refinement. The initial while loops are problematic and lead to a very slow convergence or even infinite loops for certain inputs. The core Babylonian algorithm is present, but the overall result is not consistently accurate due to the poor initial guess.","Input: 2 | Expected: 1.414 | Likely behavior: The initial while loops will cause x to increment slowly. The Babylonian algorithm will then refine the approximation, but the final result may be inaccurate due to the initial guess. | Why: The initial while loops increment x by 1, which is a very coarse approximation. This can lead to a slow convergence or even an infinite loop if the initial guess is too far off. | Input: 10 | Expected: 3.162 | Likely behavior: Similar to the previous case, the initial while loops will take a while to get x close to the square root of 10. The Babylonian algorithm will then refine the approximation, but the final result may be inaccurate due to the initial guess. | Why: The initial while loops increment x by 1, which is a very coarse approximation. This can lead to a slow convergence or even an infinite loop if the initial guess is too far off. | Input: 0.25 | Expected: 0.500 | Likely behavior: The initial while loops might not terminate quickly, or the value of x might become too large before the Babylonian algorithm starts. | Why: The initial while loops increment x by 1, which is a very coarse approximation. This can lead to a slow convergence or even an infinite loop if the initial guess is too far off. | The initial approximation using `while((x*x-num)<=0)` is highly inefficient and can lead to incorrect results or infinite loops. A better approach would be to start with a reasonable initial guess (e.g., num/2) and then use the Babylonian algorithm to refine the approximation. The current implementation's initial guess is too crude. | The code uses a fixed increment of 0.1 in the second while loop, which can lead to inaccurate results, especially for numbers with square roots that are not close to integer values. A more robust approach would be to use a smaller increment or a more sophisticated convergence criterion.",gemma3:12b,ollama,,45,1,D,"The student's submission does not implement the Babylonian algorithm properly. Instead of using an iterative loop with a convergence condition or average-based refinement characteristic of the Babylonian method (Heron's method), the student performs a linear search to find the integer and first decimal bounds, followed by a fixed number of Newton-Raphson iterations. Furthermore, initializing x = 0 leads to a division-by-zero error on the first iteration since `x*x - num / (2*x)` involves division by `2*x` when `x = 0` (though the code increments x before division, the logic is fragile).","The code does not implement the actual iterative Babylonian algorithm (averaging x and num/x), but rather hardcodes three steps of Newton-Raphson approximation after finding a starting point via linear search. | Initialization of x = 0 can cause runtime issues or division by zero conceptually, although the initial loop increments x by 1 before the division step. | The focus criterion ('Is x value updated correctly?') reveals that the iterative loop structure of the Babylonian algorithm is entirely missing, substituting a fixed three-step calculation which may not achieve the required precision for very large or very small numbers. | Failure to handle edge cases properly, such as input values between 0 and 1 (where starting x at 0 and incrementing by 1 causes immediate issues with the first loop condition `(x*x - num) <= 0`). For `num = 0.5`, `x=0` gives `0 <= 0.5`, so `x` becomes `1`, then `x-1` is `0`, causing the next loop to increment `0.1` at a time, eventually working, but for `num = 0` it breaks down or behaves poorly.",gemini-3.5-flash-lite,gemini,,0,0,,Agent call failed.,,gemini-3.1-flash-lite,gemini,"gemini request failed: 503 {
+  ""error"": {
+    ""code"": 503,
+    ""message"": ""This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try again later."",
+    ""status"": ""UNAVAILABLE""
+  }
+}
+",Write a C++ program that implements the Babylonian Algorithm to approximate the square root of any given positive real number. The program should take a floating-point value as input and print the final approximation of the square root rounded to three digits after the decimal point.,"#include<simplecpp>
+main_program{
+	float num,x;
+	cin>>num;
+	x=0;
+	while((x*x-num)<=0){
+		x=x+1;
+	}
+	x=x-1;
+	while((x*x-num)<=0){
+		x=x+0.1;
+	}
+	x=x-0.1;
+	float x1,x2,x3;
+	x1=x-(x*x-num)/(2*x);
+	x2=x1-(x1*x1-num)/(2*x1);
+	x3=x2-(x2*x2-num)/(2*x2);
+	cout<<fixed;
+	cout.precision(3);
+	cout<<x3;
+}"
+2026-09-14T17:25:53.528773+00:00,all_samples:38,mix:mixed,gemini-3.1-flash-lite | gemini-3.5-flash-lite | gemma3:12b | openai/gpt-oss-20b | qwen2.5-coder:14b,gemini | groq | ollama,Printing the 'o' or 'x' in the pattern,C,C,51.45,0.8801,45,1,C,"The program prints an n x n grid with alternating 'o' and 'x' characters, but the pattern does not match the required concentric L-shaped pattern.",The program correctly reads the input integer n. | The program prints an n x n grid with alternating 'o' and 'x' characters. | The pattern does not match the required concentric L-shaped pattern. | The program does not handle the alternating concentric L-shaped pattern as specified.,qwen2.5-coder:14b,ollama,,97,0.95,A,"The submission demonstrates clear, readable code with consistent formatting and a straightforward structure. Variable names are concise yet understandable, and the loop logic is easy to follow. No dead or duplicated code is present, and magic numbers are minimal and contextually clear. Minor style improvements could include adding a brief comment or using more descriptive variable names, but these do not detract from maintainability. Overall, the code is well‑structured and maintainable for a student submission.","Consistent indentation and spacing throughout the code. | Clear and concise variable names (i, k, n). | No dead or duplicated code present. | Minimal use of magic numbers (1, 2) that are self‑explanatory. | No unnecessary comments or documentation, which is acceptable for this simple program.",openai/gpt-oss-20b,groq,,75,1,C,"The code produces a grid filled with alternating 'o' and 'x' characters, but it does not implement the concentric L-shaped pattern as described in the problem statement. It simply alternates between 'o' and 'x' in each row and column.","Input: 4 | Expected: oxox\nxxox\nooox\nxxxx | Likely behavior: oxox\nxxox\nooox\nxxxx | Why: The code alternates 'o' and 'x' based on the column index, resulting in a simple checkerboard pattern instead of the concentric L-shapes.",gemma3:12b,ollama,,40,1,D,"The student's solution fails to implement the concentric L-shaped pattern requested by the problem. Instead, it prints alternating vertical stripes ('o' and 'x' columns) for every row, which does not satisfy the boundary or core requirements for concentric L-shapes.","The student's code generates vertical alternating columns of 'o' and 'x' based purely on column index parity (k % 2 == 0), rather than concentric L-shaped layers. | For n = 4, the student's output is 'oxox' for every row, completely failing to produce the correct L-shaped concentric boundaries as defined in the problem specification. | Boundary conditions like single-element grids (n=1) or even/odd transitions between layers are completely ignored due to the lack of layer-based logic.",gemini-3.5-flash-lite,gemini,,20,1,D,"The student's submission fails to implement the required concentric L-shaped pattern logic, instead printing a simple alternating column pattern.","The algorithm uses a nested loop structure with O(n^2) time complexity, which is optimal for printing an n x n grid. | The logic inside the loops is incorrect; it only checks the column index (k) to determine the character, resulting in vertical stripes rather than concentric L-shapes. | The space complexity is O(1) (excluding output), which is efficient. | The solution does not meet the functional requirements of the problem, as it ignores the row-based alternating logic required for the concentric pattern.",gemini-3.1-flash-lite,gemini,,"Write a program to accept an integer n and print an n x n square grid filled with alternating concentric L-shaped patterns using the characters 'o' and 'x'.
+
+The pattern always starts with the character 'o'.
+
+The next row and column are filled with 'x', forming an L shape flipped on the vertical axis.
+
+Then again with 'o', alternating until the entire grid is filled.
+
+Examples
+
+Input:
+4
+
+Output:
+oxox
+xxox
+ooox
+xxxx
+
+Input:
+7
+
+Output:
+oxoxoxo
+xxoxoxo
+oooxoxo
+xxxxoxo
+oooooxo
+xxxxxxo
+ooooooo
+
+
+Input Format
+
+An integer n.
+
+
+Output Format
+
+Print the n x n pattern of concentric L shapes using 'o' and 'x'.
+
+
+Note
+
+- Do not print any extra messages such as:
+  cout << ""Enter a number""
+  cout << ""The computed answer is""
+- Use cout only to print the computed final output.
+- Do not print unnecessary spaces.
+- Do not hard-code the output.
+- If any test case passes by simply printing with cout and without logic, marks will not be awarded.","#include<simplecpp>
+main_program{
+    int n;
+
+    cin >> n;
+    for (int i=1;i<=n;i++){
+
+        for (int k=1; k<=n;k++){
+            if(k%2==0){
+                cout << ""x"";
+            }
+             else cout << ""o"";
+        }
+        cout << endl;
+
+    }
+
+}"
+2026-09-14T17:27:27.687261+00:00,all_samples:41,mix:mixed,gemini-3.1-flash-lite | gemini-3.5-flash-lite | gemma3:12b | openai/gpt-oss-20b | qwen2.5-coder:14b,gemini | groq | ollama,Cluster Check,C,D,42.75,0.8785,40,1,D,The program attempts to count vowel clusters but contains a logical error that causes it to count incorrectly.,"The program increments the cluster count 'i' every time a vowel is encountered, regardless of whether it is part of an existing cluster or a new one. | The logic to detect the start of a new cluster is flawed, leading to incorrect counts. | The program does not handle the case where a vowel is followed by another vowel correctly. | The program does not handle the case where a word starts with a vowel cluster correctly.",qwen2.5-coder:14b,ollama,,35,0.8,D,"The submission demonstrates a lack of clear naming, insufficient comments, inconsistent formatting, and a confusing control structure that makes the code hard to read and maintain. Variable names such as `n`, `i`, `c`, and `d` provide little insight into their purpose. The use of a magic sentinel value `'0'` and an infinite `while` loop that never updates its condition further obfuscates the logic. Overall, the code is poorly structured and difficult to understand, warranting a low style score.","Non‑descriptive variable names (n, i, c, d). | Missing comments or documentation explaining intent. | Inconsistent indentation and brace placement. | Use of a magic sentinel value '0' without explanation. | Confusing while loop that can become infinite and does not clearly express the vowel‑cluster logic. | No separation of concerns or modularity; all logic is in a single block. | Overall readability and maintainability are severely compromised.",openai/gpt-oss-20b,groq,,75,0.9,C,"The code attempts to count vowel clusters but has a flawed logic that leads to incorrect counts in several cases. The core idea of iterating through the word and checking for vowels is present, but the handling of consecutive vowels and the initialization of the 'd' variable are problematic. The code also has an infinite loop issue.","Input: ""aeiou"" | Expected: 1 | Likely behavior: 5 | Why: The code increments 'i' for each vowel encountered because 'd' is initialized to '0' and the while loop condition is always true. This leads to overcounting. | Input: ""beautiful"" | Expected: 3 | Likely behavior: Incorrect count due to flawed logic. The code doesn't correctly identify the 'eau' cluster as a single cluster. | Why: The while loop condition and the update of 'd' are not correctly handling consecutive vowels. | Input: ""abcde"" | Expected: 2 | Likely behavior: Incorrect count. The code will increment 'i' for 'a' and 'e' but might miss the cluster depending on the logic. | Why: The logic for identifying and counting vowel clusters is not robust enough to handle different vowel arrangements.",gemma3:12b,ollama,,40,0.95,D,"The student's submission contains a critical logic error due to an infinite while loop when transitioning between vowels and consonants, or when encountering certain sequences. Specifically, if the condition for the while loop evaluates to true, it enters an infinite loop because `c` is not updated inside the `while` loop.","Infinite loop vulnerability: The code uses `while(!(d=='a'||d=='e'||d=='i'||d=='o'||d=='u'))` inside the `repeat(n)` loop. Inside this while loop, `c` does not change. If `d` is not a vowel and `c` is a vowel, `i++` and `d = c` execute, but if `c` is a consonant while `d` is not a vowel, the condition `!(d=='a'||...)` remains true and `c` is never re-read, causing an infinite loop. | Incorrect handling of consecutive vowels: The logic attempts to track state using `d` (initially '0'), but does not correctly reset or transition state when moving from a vowel back to a consonant, leading to incorrect cluster counts on standard multi-cluster words. | Boundary handling of the first character: Initializing `d = '0'` correctly assumes the start is non-vowel, but the state machine breaks down quickly upon encountering consecutive vowels or mixed sequences.",gemini-3.5-flash-lite,gemini,,20,1,D,"The algorithm is logically flawed and fails to correctly process the input string, leading to an infinite loop.","The logic uses a nested while loop that does not advance the input stream correctly, causing an infinite loop for most inputs. | The state management for tracking vowel clusters is incorrect; the variable 'd' is not updated properly to reflect the current character state. | The time complexity is effectively infinite due to the logic error, failing the O(n) requirement for the given constraints. | The code does not correctly identify vowel clusters as defined in the problem statement.",gemini-3.1-flash-lite,gemini,,"Problem Description
+
+You are building a text analyzer tool. One of its features is detecting vowel clusters in a word.
+
+Your task is to write a program that takes a word and counts how many vowel clusters it contains.
+
+What is a Vowel Cluster?
+
+A vowel cluster is a group of one or more vowels (a, e, i, o, u) that appear consecutively without any consonants in between.
+
+Examples:
+
+- ""ae"" is one vowel cluster.  
+- ""a"" is one vowel cluster.  
+- ""abc"" has one vowel cluster: ""a"".  
+
+For example, in the word ""beautiful"", the vowels ""eau"" form one vowel cluster. Later, ""i"" and ""u"" form their own clusters. Hence, the word contains 3 vowel clusters in total.
+
+--------------------------------------------------
+
+Input Format
+
+- An integer n, the length of the word.  
+- A word of n lowercase English letters.
+
+--------------------------------------------------
+
+Output Format
+
+- Print a single integer representing the number of vowel clusters in the word.
+
+--------------------------------------------------
+
+Assumptions on Input
+
+1 <= n <= 100000  
+
+--------------------------------------------------
+
+Note
+
+- Do not print any extra messages such as:
+  cout << ""Enter a number""
+  cout << ""The computed answer is""
+- Use cout only to print the computed final output.
+- Do not print unnecessary spaces.
+- Do not hard-code the result.
+- If any test case passes by simply printing output without logic, marks will not be awarded.","#include<simplecpp>
+main_program{
+        int n,i=0;
+        cin >> n;
+        char c,d='0';
+        repeat(n){
+                cin >> c;
+                while(!(d=='a'||d=='e'||d=='i'||d=='o'||d=='u')){
+                        if (c=='a'||c=='e'||c=='i'||c=='o'||c=='u'){
+                                i++;
+                                d = c;
+                        }
+                }
+        }
+        cout << i;
+}"
+2026-09-14T17:28:19.941552+00:00,all_samples:51,mix:mixed,gemini-3.1-flash-lite | gemini-3.5-flash-lite | gemma3:12b | openai/gpt-oss-20b | qwen2.5-coder:14b,gemini | groq | ollama,"Is the implementation able to correctly determine whether the array is in increasing order, decreasing order or any other",D,D,3.85,0.9618,0,1,,"The submission does not implement the required function and logic to determine if the array is in strictly increasing, strictly decreasing, or neither order. It simply outputs '3' without any input handling or computation.",The submission does not include the required function `isIncreasingDecreasing`. | The submission does not handle user input for the number of elements `n` and the array `A`. | The submission does not perform any logic to check the order of the array. | The submission only outputs '3' without any meaningful computation or input handling.,qwen2.5-coder:14b,ollama,,10,0.9,D,"The submission is essentially a placeholder that prints a constant value without implementing the required function or any meaningful logic. It lacks proper structure, naming, comments, and formatting, making it unreadable and unmaintainable.",Missing function definition and main program structure | No include directives for standard headers | No variable names or comments | Hardcoded output with no context | Overall code is not functional or maintainable,openai/gpt-oss-20b,groq,,19,1,D,The submission is essentially non-functional. It directly prints '3' without taking any input or implementing the required function. It fails to address the problem statement's core requirements.,"Input: Any n and A | Expected: 1, 2, or 3 based on the array's order | Likely behavior: Prints '3' | Why: The code hardcodes the output '3' and does not process any input or implement the `isIncreasingDecreasing` function.",gemma3:12b,ollama,,0,1,D,"The student submission is a hardcoded placeholder program that completely ignores the input, does not implement the required function signature, and fails all edge-case and core logic tests.","Does not implement the required function int isIncreasingDecreasing(int *A, int n). | Does not read any input (n or array A) from the user. | Hardcodes the output '3' regardless of whether the actual input sequence is increasing, decreasing, or neither. | Fails to handle any boundary cases such as n = 1, singleton arrays, or strictly increasing/decreasing sequences.",gemini-3.5-flash-lite,gemini,,0,1,D,"The submission fails to implement the required function and does not process the input array, resulting in a hardcoded output that is incorrect for the general case.","The program does not implement the required function 'int isIncreasingDecreasing(int *A, int n)'. | The program does not read the input 'n' or the array 'A'. | The program uses a hardcoded output '3' regardless of the input, which fails the logic requirements. | The complexity is O(1) because it performs no operations on the input, but it fails the functional requirements entirely.",gemini-3.1-flash-lite,gemini,,"Write a C++ program to take the number n and an array A of n numbers as input from the user. The program should then contain a function which determines whether the array is in strictly increasing order (in which case the function should return 1), or else determine whether the array is in strictly decreasing order (in which case the function should return 2), and return 3 otherwise. The format of the function is int isIncreasingDecreasing (int *A, int n). The program should then print the value returned by the function on a new line. You must implement this via a function, otherwise you will get no credit. For simplicity, assume that all entries in the array are unique.
+
+Input Format - Non-negative integer n and an array A of n elements
+Output Format - The value 1,2 or 3 as described above. 
+Constraints
+1 <= n < 25
+
+Sample input - 33 4 2
+Sample output - 3","#include<simplecpp>
+main_program{
+cout<<""3"";}"
+2026-09-14T17:28:50.090646+00:00,all_samples:52,mix:mixed,gemini-3.1-flash-lite | gemini-3.5-flash-lite | gemma3:12b | openai/gpt-oss-20b | qwen2.5-coder:14b,gemini | groq | ollama,K repetitively incremeneted by 2 and divisibility by k is checked and number is reduced.,D,D,2.85,0.8695,0,1,,The submitted code is empty and does not contain any logic to find and print the unique prime factors of a given number.,The code is completely empty and does not implement any logic to solve the problem. | There are no input handling or computation statements present. | There is no output statement to print the prime factors.,qwen2.5-coder:14b,ollama,,0,0.95,D,"The submission contains no functional code beyond an empty main function, providing no implementation of the required algorithm or any style elements to evaluate. It fails to meet the problem requirements and offers no readable or maintainable code to assess.",Empty main function with no implementation | No variable names or logic to evaluate | No comments or formatting to review,openai/gpt-oss-20b,groq,,19,1,D,"The submitted code is an empty main function. It does not perform any computation or output, and therefore fails to address the problem statement. The program does not take input, process it, or produce any output.",,gemma3:12b,ollama,,0,1,D,"The student submission is completely empty and contains no C++ code to solve the problem, thus failing all test cases including edge cases.","The main function is empty and does not read any input, compute prime factors, or produce any output. | Fails to handle any valid positive integer n >= 2. | Does not implement the required logic for checking divisibility and incrementing k.",gemini-3.5-flash-lite,gemini,,0,0,,Agent call failed.,,gemini-3.1-flash-lite,gemini,"gemini request failed: 503 {
+  ""error"": {
+    ""code"": 503,
+    ""message"": ""This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try again later."",
+    ""status"": ""UNAVAILABLE""
+  }
+}
+","Write a C++ program to take a positive integer n as input from the user and print out its unique prime factors. For this, do the following: While n is divisible by 2, print the number 2 and divide n by 2. After that, the number is no longer even. While n is divisible by k=3, print the number 3 and divide n by 3. After k no longer divides n, increase k by 2 and repeat. 
+
+Input Format - integer n
+Output Format - All prime factors, each one printed on a new line. 
+
+Constraints
+n is a positive integer such that n>=2
+
+Sample input and output
+Input - 45
+Output - 3 5
+Explanation:45 can be expressed as 3x3x5 . Hence its prime factors are 3 and 5
+
+
+Note:Do not write any C++ statements for printing general messages. For example, the following should NOT be present in your program:cout << ""Enter a number:"",cout << ""The computed answer is"", etc.cout should be used to print only the computed final output. In addition, do not print unnecessary spaces unless specified in the programThe solution file name should be an C_Q2.cpp","#include<iostream>
+using namespace std;
+
+int main(){
+
+}"
+2026-09-14T17:31:10.526535+00:00,all_samples:53,mix:mixed,gemini-3.1-flash-lite | gemini-3.5-flash-lite | gemma3:12b | openai/gpt-oss-20b | qwen2.5-coder:14b,gemini | groq | ollama,Memoization: The code may vary (used the code provided by the instructor or completely implemented by students),D,D,17.75,0.8594,0,1,,The submission is empty and does not contain any code to solve the problem.,No code is provided to implement the recursive function with memoization. | The submission lacks any logic to handle the input or compute the number of valid paths. | The output format is not addressed in the submission.,qwen2.5-coder:14b,ollama,,5,0.9,D,"The submission contains only include directives and a namespace declaration, with no implementation of the required recursive function or any logic to solve the problem. As a result, the code is incomplete and offers no insight into readability or maintainability. The lack of any functional code precludes meaningful evaluation of style aspects, but the absence of core content warrants a low score.","No implementation of the recursive counting function or any algorithmic logic. | No functions, variables, or comments to assess naming clarity or documentation. | No formatting or structural elements beyond the includes and namespace declaration.",openai/gpt-oss-20b,groq,,85,1,B,"The code appears to correctly implement a recursive solution to count the number of valid paths to reach the last position. The logic seems sound, but the lack of memoization could lead to performance issues for larger values of n.  A potential issue exists if jumps[i] is large enough to allow jumps over multiple positions. The code needs to be tested with larger inputs to confirm its efficiency and correctness.","Input: n = 4, jumps = {1, 2, 1, 0} | Expected: 1 | Likely behavior: 1 | Why: This tests a simple case where the only path is 0 -> 1 -> 2 -> 3. The code should correctly identify this single path. | Input: n = 5, jumps = {1, 2, 1, 0, 0} | Expected: 1 | Likely behavior: 1 | Why: This tests a case where the path is 0 -> 1 -> 2 -> 3 -> 4. The code should correctly identify this single path. | Input: n = 3, jumps = {2, 1, 0} | Expected: 1 | Likely behavior: 1 | Why: This tests a case where the path is 0 -> 2 -> 3. The code should correctly identify this single path. | Input: n = 4, jumps = {1, 1, 1, 0} | Expected: 1 | Likely behavior: 1 | Why: This tests a case where the path is 0 -> 1 -> 2 -> 3. The code should correctly identify this single path. | Input: n = 5, jumps = {1, 1, 1, 1, 0} | Expected: 1 | Likely behavior: 1 | Why: This tests a case where the path is 0 -> 1 -> 2 -> 3 -> 4. The code should correctly identify this single path.",gemma3:12b,ollama,,0,1,D,"The student submission is completely empty except for header inclusions, containing no implementation or logic to evaluate.",The submitted code is empty and contains no functions or logic. | No edge cases can be tested because there is no implementation.,gemini-3.5-flash-lite,gemini,,45,0.95,D,The student provided an incomplete submission containing only the header includes and namespace declaration. No algorithm or logic was implemented.,"The submission is missing the core logic, including the recursive function and the main execution block. | Without an implementation, it is impossible to evaluate the time or space complexity. | The problem requires memoization to handle the constraints (n=1000) efficiently, as a naive recursive approach would have exponential time complexity O(n^n).",gemini-3.1-flash-lite,gemini,,"You are given a game consisting of n positions arranged in a line from index 0 to n-1. From each position i, you are given a number jumps[i] which represents how far you are allowed to jump forward from that position.
+
+Your task is to compute how many valid ways exist to reach the last position starting from position 0, following the rules below.
+
+Rules
+
+1. You start from position 0.
+2. From position i, you may move to any position j such that:
+   j > i and j - i <= jumps[i].
+3. You may only move forward.
+4. A path is considered valid if you can reach the last position (n-1) using the allowed jumps.
+
+The program uses a recursive function to count all such valid paths.
+
+
+
+Input Format
+
+- An integer n representing the number of positions.
+- n integers representing the array jumps, where jumps[i] indicates the maximum jump length from position i.
+
+
+
+Output Format
+
+- Print the total number of valid ways to reach the last position starting from index 0.
+
+
+
+Constraints
+
+- 1 <= n <= 1000  
+- 0 <= jumps[i] <= n  
+
+
+
+Explanation
+
+The recursive function works backward and checks whether a position can reach the end based on the jump limits. If a position can reach the target, it contributes to the total count of paths.","#include<iostream>
+#include<vector>
+using namespace std;"
+2026-09-14T17:31:53.302912+00:00,all_samples:58,mix:mixed,gemini-3.1-flash-lite | gemini-3.5-flash-lite | gemma3:12b | openai/gpt-oss-20b | qwen2.5-coder:14b,gemini | groq | ollama,Memoization: The code may vary (used the code provided by the instructor or completely implemented by students),D,D,0.5,0.9826,0,1,,The student submission is empty and does not contain any meaningful code to solve the problem.,The function 'steps' is declared but not implemented. | There is no logic to compute the number of valid ways to reach the last position. | The code does not handle input or output as required. | The code does not use memoization or any other method to solve the problem.,qwen2.5-coder:14b,ollama,,5,0.9,D,"The submission contains only a skeleton with syntax errors and no implementation, making it unusable and unreadable. It lacks proper includes, correct function signature, and any logic, resulting in a minimal attempt.",Incorrect header include name (iostreaam instead of iostream). | Missing return type for steps function. | Empty function body with no logic.,openai/gpt-oss-20b,groq,,0,1,D,"The submitted code is incomplete. The `steps` function is declared but not defined, resulting in a compilation error.  Without a defined function, the program cannot execute and therefore cannot solve the problem.","Input: N/A | Expected: N/A | Likely behavior: Compilation error | Why: The `steps` function is declared but not defined, preventing compilation.",gemma3:12b,ollama,,0,1,D,"The student submission is incomplete, consisting only of a function header with a typo in the include statement (#include<iostreaam>) and an empty function body. No implementation is provided to evaluate against edge cases.",The code is incomplete and fails to implement the required path counting logic. | Contains a typo in the preprocessor directive (#include<iostreaam>). | Function steps is left empty with no return statement or logic.,gemini-3.5-flash-lite,gemini,,0,1,D,The submitted code is incomplete and does not implement the required logic or memoization.,"The code is missing the implementation of the recursive function and the main execution logic. | The provided code snippet is syntactically incorrect (e.g., 'iostreaam'). | No algorithm was provided to evaluate for complexity or memoization. | The submission fails to address the problem constraints or the focus criterion.",gemini-3.1-flash-lite,gemini,,"You are given a game consisting of n positions arranged in a line from index 0 to n-1. From each position i, you are given a number jumps[i] which represents how far you are allowed to jump forward from that position.
+
+Your task is to compute how many valid ways exist to reach the last position starting from position 0, following the rules below.
+
+Rules
+
+1. You start from position 0.
+2. From position i, you may move to any position j such that:
+   j > i and j - i <= jumps[i].
+3. You may only move forward.
+4. A path is considered valid if you can reach the last position (n-1) using the allowed jumps.
+
+The program uses a recursive function to count all such valid paths.
+
+
+
+Input Format
+
+- An integer n representing the number of positions.
+- n integers representing the array jumps, where jumps[i] indicates the maximum jump length from position i.
+
+
+
+Output Format
+
+- Print the total number of valid ways to reach the last position starting from index 0.
+
+
+
+Constraints
+
+- 1 <= n <= 1000  
+- 0 <= jumps[i] <= n  
+
+
+
+Explanation
+
+The recursive function works backward and checks whether a position can reach the end based on the jump limits. If a position can reach the target, it contributes to the total count of paths.","#include<iostreaam>
+using namespace std;
+steps(int jumps[], int n){
+    
+}"
+,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+2026-09-14T17:08:04.346010+00:00,all_samples:2,mix:mixed,gemini-3.1-flash-lite | gemini-3.5-flash-lite | gemma3:12b | openai/gpt-oss-20b | qwen2.5-coder:14b,gemini | groq | ollama,Overall program correctness,A,A,91.8,0.9506,95,1,A,"The program correctly performs addition, subtraction, multiplication, and division on two complex numbers and outputs the result with 3 digits after the decimal point.","The program correctly reads the input values for two complex numbers and the operation to be performed. | The program correctly implements the logic for addition, subtraction, multiplication, and division of complex numbers. | The program correctly formats the output to 3 decimal places. | The commented-out switch-case structure is not used, but it is correct if needed for future use.",qwen2.5-coder:14b,ollama,,88,0.8,B,"The submission is clear and readable overall. Variable names are descriptive enough for the task, and the logic for each operation is straightforward. Minor style issues such as inconsistent indentation, repeated formatting calls, and a large commented-out switch block reduce maintainability slightly. No critical naming or structural problems are present, so the code remains understandable and maintainable for a student project.","Inconsistent indentation and spacing throughout the file | Repeated calls to cout<<fixed and cout.precision(3) could be extracted to a helper function | Large commented-out switch block is dead code but harmless | No explanatory comments or documentation are provided | Variable names are adequate but could be more descriptive (e.g., num1, num2)",openai/gpt-oss-20b,groq,,85,1,B,"The code correctly implements addition, subtraction, and multiplication of complex numbers. The division operation has a sign error. The code also correctly formats the output to 3 decimal places.","Input: 1 1 1 1 D | Expected: 0.000 2.000 | Likely behavior: -2.000 0.000 | Why: The division formula is incorrect. The correct formula for division is ((a*c + b*d)/(c*c + d*d), (b*c - a*d)/(c*c + d*d)). The code has (b*c + a*d) in the numerator for the imaginary part.",gemma3:12b,ollama,,85,0.95,B,"The student's submission correctly implements complex number operations (addition, subtraction, multiplication, and division) along with the required precision formatting. However, it fails to handle standard edge cases such as division by zero (when the denominator real2^2 + imag2^2 evaluates to zero) and lacks handling for unrecognized operation characters.","Division by zero is not handled: if real2 and imag2 are both 0, the program will perform division by zero, resulting in NaN or Inf output without protection. | Complex division formula implementation is correct (denominator is real2^2 + imag2^2, numerator real parts are real1*real2 + imag1*imag2, imaginary parts are imag1*real2 - imag2*real1). | Formatting is properly applied using cout << fixed and cout.precision(3) for all operations. | No validation or default branch exists if an operation character other than 'A', 'S', 'M', or 'D' is provided.",gemini-3.5-flash-lite,gemini,,100,1,A,"The algorithm uses O(1) time and O(1) space, which is optimal for performing arithmetic operations on a fixed number of inputs.","The program performs basic arithmetic operations on complex numbers, each taking constant time. | The space complexity is O(1) as it only uses a fixed number of float and char variables. | The approach is perfectly suited for the constraints of the problem. | No loops or recursive calls are present, ensuring minimal overhead.",gemini-3.1-flash-lite,gemini,,"Write a program that takes as input two complex numbers and performs one of the following operations on them: addition, subtraction, multiplication, or division. The output should be the result of the operation, with 3 digits after the decimal point. The input should be two pairs of floating-point numbers indicating the real and imaginary parts of the complex numbers, separated by spaces, followed by a letter indicating the operation to be performed. The output should be two space-separated numbers, with the real part followed by the imaginary part.","#include<simplecpp>
+main_program{
+	float real1, imag1, real2, imag2;
+	
+	char r; // A, S, M, D;
+	
+	cin>>real1>>imag1>>real2>>imag2>>r;
+
+	if(r=='A'){
+		float k=real1+real2;
+		cout<<fixed;
+		cout.precision(3);
+		cout<<k<< "" ""<<(imag1+imag2)<<endl;}
+
+	else if(r=='S'){
+		cout<<fixed;
+		cout.precision(3);
+		cout<<(real1-real2)<<"" ""<<(imag1-imag2)<<endl;}
+	else if(r=='M'){
+		cout<<fixed;
+		cout.precision(3);
+		cout<<(real1*real2-imag1*imag2)<< "" ""<< (real1*imag2+real2*imag1)<<endl;}
+	else if(r=='D'){
+		cout<<fixed;
+		cout.precision(3);
+		cout<<((real1*real2+imag1*imag2)/(real2*real2+imag2*imag2))<<"" ""<<((imag1*real2-imag2*real1)/(real2*real2+imag2*imag2))<<endl;}
+
+
+
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*	switch(r){
+		case A : {
+			cout<<(real1+real2)<<"" "" <<(imag1+imag2)<<endl;
+			break;
+		}
+
+		case S : {
+			cout<<(real1-real2)<<"" ""<<(imag1-imag2)<<endl;
+			break;}
+
+		case M : {
+			cout<<(real1*real2 - imag1*imag2)<<"" ""<<(real1*imag2 + real2*imag1)<<endl;
+			break;}
+		case D : {
+			cout<<((real1*real2 + imag1*imag2)/(real2*real2 + imag2*imag2))<< "" ""<< ((real2*imag1 - imag2*real1)/(real2*real2+imag2*imag2))<<endl;
+			break;}
+	}}
+	
+*/"
+2026-09-14T17:37:55.102203+00:00,all_samples:6,mix:mixed,gemini-3.1-flash-lite | gemini-3.5-flash-lite | gemma3:12b | openai/gpt-oss-20b | qwen2.5-coder:14b,gemini | groq | ollama,Overall program correctness,A,B,75,0.9021,75,0.9,C,"The program attempts to sort the array using a selection sort-like approach, but it does not correctly implement the given algorithm. The program swaps elements incorrectly, leading to an incorrect sort order.",The program does not correctly find the minimum element in the remaining array and swap it with the current element. | The output format is incorrect; it prints each element on a new line instead of separating them with a space. | The program does not handle the constraints or edge cases as specified in the problem statement.,qwen2.5-coder:14b,ollama,,70,0.8,C,"The submission demonstrates a basic grasp of the required algorithm and produces a readable, if somewhat unpolished, implementation. However, the code suffers from inconsistent formatting, lack of explanatory comments, and minimal naming clarity, which detract from maintainability. The overall style is acceptable for a student submission but falls short of higher grades due to these issues.","Inconsistent indentation and spacing throughout the code make the structure harder to follow. | Variable names are very short (n, a, i, j, temp) and could be more descriptive to aid readability. | No comments or documentation are provided, so the intent behind loops and logic is not immediately clear to a reader. | The code uses a variable-length array (int a[n]) which is non-standard C++ and may not be portable, though it works in simplecpp. | Overall, the code is functional but could be improved with better formatting, naming, and documentation for maintainability.",openai/gpt-oss-20b,groq,,75,1,C,"The code attempts to sort the array but implements a flawed sorting algorithm. It finds the minimum element in the remaining array, but it swaps the minimum element with the element at the current index `i` instead of the element at index `i+1` as described in the problem statement. This results in an incorrect sorting order. The code also prints each element on a new line instead of printing them on the same line separated by spaces.","Input: 5 5 4 3 2 | Expected: 2 3 4 5 5 | Likely behavior: The code will not correctly sort the array. The inner loop swaps elements incorrectly, leading to an incorrect sorted order. | Why: The problem statement specifies swapping the minimum element with the *next* element in the array. The code swaps with the current element. | Input: 3 3 2 1 | Expected: 1 2 3 | Likely behavior: The code will not correctly sort the array. The inner loop swaps elements incorrectly, leading to an incorrect sorted order. | Why: The problem statement specifies swapping the minimum element with the *next* element in the array. The code swaps with the current element. | Input: 2 1 | Expected: 1 2 | Likely behavior: The code will not correctly sort the array. The inner loop swaps elements incorrectly, leading to an incorrect sorted order. | Why: The problem statement specifies swapping the minimum element with the *next* element in the array. The code swaps with the current element. | The output is not formatted correctly. The problem statement requires printing the sorted array with spaces between elements, but the code prints each element on a new line.",gemma3:12b,ollama,,85,1,B,"The student correctly implements selection sort, which matches the algorithm described in the problem statement. The edge case of n < 25 is respected, and the code handles basic inputs well. However, the student's output format uses endl for each element instead of printing them on a single line separated by spaces as specified in the output format.","The core selection sort algorithm is correctly implemented, finding the minimum element in the remaining array and swapping it into place. | Variable-length array (VLA) `int a[n]` is used, which is a non-standard C++ extension, though acceptable in simplecpp environments given the constraint $n < 25$. | Boundary case $n = 0$ or $n = 1$: loops for sorting (`i < n-1`) safely do not execute, printing correctly or doing nothing, though `endl` printing is used. | Output format mismatch: The problem requests 'Print the sorted array with a space between adjacent elements', but the student prints each element on a new line using `cout << a[i] << endl;`.",gemini-3.5-flash-lite,gemini,,65,1,C,The student implemented a variation of exchange sort that is functionally equivalent to bubble sort rather than the requested selection sort algorithm.,"The algorithm implemented is an exchange sort that swaps elements immediately upon finding a smaller value, rather than finding the minimum of the remaining subarray first. | The problem explicitly required finding the minimum element in the remaining array and then performing a single swap per iteration (Selection Sort). | The time complexity of the submitted code is O(n^2), which is efficient enough for n < 25. | The space complexity is O(n), which is appropriate. | The output format uses endl (newlines) instead of spaces between elements as requested, which is a minor formatting error.",gemini-3.1-flash-lite,gemini,,"Write a C++ program to sort an array A of n numbers strictly using the given algorithm:
+
+1. Find the minimum element in the array.
+2. Swap the minimum element with the first element of the array.
+3. Find the minimum element in the remaining array.
+4. Swap the minimum element with the second element of the array.
+5. Repeat steps 3 and 4 until the entire array is sorted.
+
+Constraints:
+
+* n < 25
+
+Input Format:
+
+* Non-negative integer n
+* Array A of n elements
+
+Output Format:
+
+* Print the sorted array with a space between adjacent elements.","#include<simplecpp>
+
+main_program{
+int n;
+cin>>n;
+int a[n];
+for(int i=0;i<n;i++)
+ cin>>a[i];
+for(int i=0;i<n-1;i++)
+{
+  for(int j=i+1;j<n;j++)
+{
+  if(a[j]<a[i]){
+  int temp=a[j];
+  a[j]=a[i];
+  a[i]=temp;
+}
+}
+
+
+}
+for(int i=0;i<n;i++)
+{
+cout<<a[i]<<endl;
+}
+
+
+
+
+
+}"
+2026-09-14T17:40:08.465646+00:00,all_samples:20,mix:mixed,gemini-3.1-flash-lite | gemini-3.5-flash-lite | gemma3:12b | openai/gpt-oss-20b | qwen2.5-coder:14b,gemini | groq | ollama,Overall program correctness,B,C,58.75,0.822,65,0.9,C,The program attempts to convert binary numbers with fractional parts into decimal values but contains several issues that prevent it from functioning correctly.,"The `intpart` function incorrectly calculates the integer part of the binary number. It uses modulo and division operations incorrectly, leading to incorrect decimal conversion. | The `fracpart` function has a logical error in the loop that calculates the fractional part. The `digits` variable is not correctly updated, causing incorrect decimal conversion. | The `main_program` block does not correctly set the precision for the output before printing the result. The `cout.precision(2);` statement should be placed before the `cout<<ans;` statement to ensure the output is rounded to two decimal places. | The program does not handle input validation, which could lead to incorrect results if non-binary input is provided.",qwen2.5-coder:14b,ollama,,30,0.7,D,"The submission demonstrates a basic attempt at the required functionality but suffers from significant readability and maintainability issues. Variable names are short and non‑descriptive, comments are absent, and formatting is inconsistent. The code structure is confusing, with unclear logic and misuse of functions like pow and repeat. These factors make the program difficult to understand, debug, or extend.","Variable names such as `m`, `n`, `i`, `dec`, `temp` provide little insight into their purpose. | No comments or documentation are present to explain the algorithm or the role of each function. | Formatting is inconsistent: braces are placed on the same line, indentation is uneven, and the `main_program` block lacks clarity. | The logic in `intpart` and `fracpart` is convoluted and uses `pow` with integer arguments, leading to type mismatches and potential runtime errors. | The use of `repeat` from `simplecpp` is unclear and not explained, adding to the confusion. | The program does not correctly set output precision before printing, and the result is printed as an integer rather than a formatted decimal. | Overall, the code is hard to read, maintain, or modify, which severely impacts its educational value.",openai/gpt-oss-20b,groq,,60,0.7,C,"The program attempts to convert a binary number (split into integer and fractional parts) to decimal. However, the `intpart` function is flawed and does not correctly convert the integer part. The `fracpart` function also has issues with its logic and calculations. The overall approach is understandable, but the implementation has significant errors.","Input: 1010 | Expected: 10.00 | Likely behavior: 10 | Why: The `intpart` function incorrectly calculates the decimal equivalent of the integer binary part. It appears to be attempting to extract digits and multiply by powers of 2, but the logic is flawed, leading to incorrect results. The loop condition `while(m/pow(10,i)!=0)` is incorrect, and the calculation `dec+=(temp%10)*pow(2,i)` is also wrong. It should be `dec += (pow(2, i)) * (m % 10);` | Input: 101 | Expected: 0.5 | Likely behavior: 0.0 | Why: The `fracpart` function has issues with its loop and calculation. The `repeat` loop is not standard C++ and is likely a `simplecpp` extension, but the logic within the loop is incorrect. The `digits` variable is not correctly initialized or updated, leading to incorrect powers of 2 being used in the calculation. Also, the loop iterates in the wrong direction. | Input: 1111 | Expected: 15.00 | Likely behavior: 15 | Why: The `intpart` function fails to correctly convert the integer binary part. The incorrect loop condition and calculation lead to an incorrect decimal value. | Input: 10101 | Expected: 21.00 | Likely behavior: 21 | Why: The `intpart` function fails to correctly convert the integer binary part. The incorrect loop condition and calculation lead to an incorrect decimal value.",gemma3:12b,ollama,,65,0.95,D,"The student implemented the basic decomposition and conversion logic using functions, but there are multiple significant issues involving floating-point precision, use of `pow` with integers leading to rounding inaccuracies, incorrect fractional conversion logic, incorrect output formatting order (`cout.precision(2)` applied after printing), and assignment of a double/float sum to an integer variable (`ans`).","Precision and type issues: `ans` is declared as an `int`, meaning any fractional part computed by `fracpart(n)` is truncated when assigned to `ans`, entirely defeating the purpose of converting a fractional binary number. | Output formatting: `cout << ans;` is executed before `cout.precision(2);`, so the precision modifier has no effect on the printed output, failing the requirement to print rounded to two decimal places. | Fractional conversion logic: The implementation of `fracpart` uses `pow` and integer division on `n` in a way that does not correctly compute the standard positional weights of a fractional binary part (e.g., $0.1_2$ represented as integer 1 processed incorrectly). | Floating-point accuracy: Using `pow` with integers and floating-point types (`float`/`double`) can introduce cumulative rounding errors on boundary inputs.",gemini-3.5-flash-lite,gemini,,45,1,D,The algorithm is logically flawed in its implementation of binary-to-decimal conversion and fails to meet the output formatting requirements.,"The time complexity is O(d) where d is the number of digits, which is efficient enough for the problem constraints. | The logic for converting the fractional part is incorrect; it uses an improper power-of-two weighting scheme that does not correctly represent binary fractions. | The program uses integer division and floating-point math in a way that leads to precision loss and incorrect results. | The output formatting is incorrect: 'cout.precision(2)' is called after the value is printed, and the variable 'ans' is declared as an integer, which truncates the fractional part before printing. | The use of 'pow' with integer inputs and outputs is prone to floating-point inaccuracies, though not the primary cause of the logic failure here.",gemini-3.1-flash-lite,gemini,,"Write a C++ program to convert a binary number (that may contain a fractional part) into its corresponding decimal value. The program should take two binary values as input, one representing the number before the radix point and the other representing the number after the radix point. The program should convert the binary values into their corresponding decimal values and print the resulting value rounded to two decimal places. The program should use functions to convert the integer and fractional binary parts into integer and double values, respectively, and add the integer and double values to obtain the final decimal value. The program should use the cout statement to print the resulting value with two digits after the decimal point.","#include <simplecpp>
+
+int intpart(int m){
+
+	int dec=0,i=1,temp;
+	dec+=m%10;
+	while(m/pow(10,i)!=0){
+		temp=m/pow(10,i);
+		dec+=(temp%10)*pow(2,i);
+		i++;
+	}
+
+return dec;
+}
+
+double fracpart(int n){
+
+	float dec=0,i=1;
+	int digits=0,temp;
+	while(n/pow(10,digits)!=0){
+		digits++;
+	}
+	dec+=(n%10)*pow(2,-digits);
+	repeat(digits){
+		temp=n/pow(10,i);
+		dec+=float((temp%10))*pow(2,-digits);
+		digits--;
+	}
+	return dec;
+}
+
+main_program{
+	int m,n;
+	cin>>m>>n;
+	int ans;
+	ans=double(intpart(m))+fracpart(n);
+	cout<<ans;
+	cout.precision(2);
+}"
+2026-09-14T17:43:08.476332+00:00,all_samples:33,mix:mixed,gemini-3.1-flash-lite | gemini-3.5-flash-lite | gemma3:12b | openai/gpt-oss-20b | qwen2.5-coder:14b,gemini | groq | ollama,Sorting algorithm implemented is Bubble sort.,C,C,60.45,0.6689,65,0.9,C,"The program collects input and sorts the strings using bubble sort, but there are issues with input handling and the number of swaps is incorrectly calculated.","The program correctly implements the bubble sort algorithm in the string_sort function. | The string_compare function correctly compares two strings in augmented alphabetical order. | The input handling in the main function has an off-by-one error, leading to incorrect behavior when n is input. | The number of swaps is incorrectly calculated because the swap count is incremented even when no swap occurs. | The program outputs the sorted strings and the number of string_compare operations, but the swap count is incorrect.",qwen2.5-coder:14b,ollama,,72,0.8,D,"The submission demonstrates a reasonable attempt at the required functionality, but several style and maintainability issues reduce its overall quality. Variable names are not descriptive, magic numbers are used directly, and the code relies on non‑standard variable‑length arrays and off‑by‑one errors. Formatting is largely consistent, and the structure of functions is clear, but the lack of meaningful identifiers and the presence of subtle bugs make the code harder to read and maintain.","Variable names such as `a`, `b`, `c`, `l` are ambiguous and do not convey intent. | The function parameters `int& a` and `int& b` for counters are poorly named; clearer names like `compareCount` and `swapCount` would improve readability. | Magic number `12` is used directly for array sizes; a named constant would aid maintainability. | The code uses a variable‑length array `char a[n+1][12]`, which is non‑standard C++ and can lead to portability issues. | Off‑by‑one errors: the program reads and sorts `n+1` strings instead of `n`, due to loops running from `0` to `n` inclusive. | No comments or documentation are provided, which would help explain the logic, especially the manual string swap implementation. | Formatting is generally consistent, but the use of `i=i+1` instead of `++i` is a minor stylistic choice. | The manual string copy logic is correct but could be simplified with `std::swap` or a temporary buffer, improving clarity.",openai/gpt-oss-20b,groq,,0,0,,Agent call failed.,,gemma3:12b,ollama,ollama request failed: timed out,75,1,C,"The student submission implements the required bubble sort and string comparison logic correctly, but contains a severe off-by-one error in handling input and array bounds (using n+1 instead of n), which leads to reading an extra blank line/string and sorting n+1 items instead of n.","Boundary analysis on n: The student uses 'n+1' for the array size and loops (e.g., `char a[n+1][12]` and loops up to `n+1`), causing the program to expect n+1 strings from the user instead of n. | Empty string / whitespace boundary handling: Using `cin >> n` followed by `cin.getline` causes the newline character after `n` to be consumed as the first string, leading to an empty string input at index 0. | Bubble sort and string_compare logic correctly implement the requested functionality and track operation counts. | String length constraint (max 11 characters + null terminator) is correctly accommodated by using size 12 character arrays.",gemini-3.5-flash-lite,gemini,,95,1,A,"The implementation correctly uses Bubble Sort as requested. The time complexity is O(n^2 * L) where n is the number of strings and L is the maximum string length, which is well within the constraints (n < 15, L = 11).","The algorithm correctly implements Bubble Sort with a time complexity of O(n^2 * L). | Space complexity is O(n * L), which is optimal for storing the input strings. | The constraints n < 15 and L = 11 are very small, making the O(n^2) sorting approach highly efficient. | The logic for string comparison and swapping is correct and appropriately integrated into the sorting function.",gemini-3.1-flash-lite,gemini,,"Write a C++ program to collect a positive integer n from the user, and then collect n character strings from the user (containing only lower case alphabets and no other characters, not even spaces). The strings need not be of equal length but the maximum length of any string should be 11. The strings should be stored in an appropriate 2D array. Your program should then include the following:
+
+1. A function string_compare which takes two strings as input and returns 1 if the first string appears before the second string in augmented alphabetical order, -1 if the second string appears before the first in augmented alphabetical order, and 0 if the two strings are equal to each other. 
+
+2. A function string_sort which sorts the character strings in reverse alphabetical order using the bubble-sort algorithm.Your program should also print the number of string_compare operations (i.e., how many times the string_compare routine was called) and the number of string swaps performed.
+
+Constraints
+n is a positive integer, n < 15
+
+The maximum length of any of the strings should be 11, excluding the NULL character
+
+The character strings should contain only lower case alphabets","#include<iostream>
+using namespace std;
+int string_compare(char s1[],char s2[])
+{
+	int i=0;
+	while(true)
+	{
+		if(s1[i]=='\0' && s2[i]=='\0'){return 0;}
+		if(s1[i]=='\0'){return 1;}
+		if(s2[i]=='\0'){return -1;}
+		if(s1[i]<s2[i]){return 1;}
+		if(s1[i]>s2[i]){return -1;}
+		i=i+1;
+	}
+}
+void string_sort(char s[][12],int n,int& a,int& b)
+{
+	for(int i=0;i<n;i=i+1)
+	{
+		for(int j=0;j<(n-i-1);j=j+1)
+		{
+			int c=string_compare(s[j],s[j+1]);
+			a=a+1;
+			if(c==1)
+			{
+				char t[12];
+				int i=0;
+				for(;s[j][i]!='\0';i=i+1)
+				{
+					t[i]=s[j][i];
+				}
+				t[i]='\0';
+				for(i=0;s[j+1][i]!='\0';i=i+1)
+				{
+					s[j][i]=s[j+1][i];
+				}
+				s[j][i]='\0';
+				for(i=0;t[i]!='\0';i=i+1)
+				{
+					s[j+1][i]=t[i];
+				}
+				s[j+1][i]='\0';
+				b=b+1;
+
+			}
+		}
+	}
+}
+int main()
+{
+	int n;
+	cin>>n;
+	char a[n+1][12];
+	for(int i=0;i<=n;i=i+1)
+	{
+		for(int j=0;j<12;j=j+1)
+		{
+			a[i][j]='\0';
+		}
+	}
+	for(int l=0;l<n+1;l=l+1)
+	{
+		cin.getline(a[l],12);
+	}
+	int sc=0;int sw=0;
+	string_sort(a,n+1,sc,sw);
+	for(int i=0;i<=n;i=i+1)
+	{
+		for(int j=0;a[i][j]!='\0';j=j+1)
+		{
+			cout<<a[i][j];
+		}
+		cout<<' ';
+	}
+	cout<<endl<<sc<<"" ""<<sw;
+}"
+2026-09-16T08:03:21.799734+00:00,all_samples:0,mix:mixed,gemini-3.1-flash-lite | gemini-3.5-flash-lite | qwen2.5-coder:14b,gemini | ollama,Overall program correctness,A,D,41.25,0.4275,0.0,0.0,,Agent call failed.,,qwen2.5-coder:14b,ollama,"ollama request failed: Server error '500 Internal Server Error' for url 'http://localhost:11434/api/chat'
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/500",88.0,1,B,"The code implements the selection sort algorithm correctly and is readable. However, the output format does not match the requirement of printing elements with a space between them, and the indentation is inconsistent.","The code uses a standard selection sort logic which aligns with the problem requirements. | The output format uses 'endl' instead of a space between elements as requested in the problem statement. | Indentation is inconsistent throughout the nested loops, which slightly reduces readability. | Variable naming is simple and appropriate for a small script. | The use of VLA (Variable Length Array) 'int a[n]' is non-standard in C++ but acceptable for this specific constraint (n < 25).",gemini-3.1-flash-lite,gemini,,85.0,0.95,B,"The student implements standard selection sort, which logically matches the algorithm specified in the problem statement (finding the minimum element in the remaining unsorted part and swapping it into place). However, the output formatting requirement specifies printing elements with a space between adjacent elements, whereas the student prints each element on a new line using endl.","Input: n = 3, array = {3, 1, 2} | Expected: '1 2 3' (space-separated) | Likely behavior: Prints each number on a new line using endl | Why: The output loop uses cout << a[i] << endl; instead of separating elements with spaces on a single line.",gemini-3.5-flash-lite,gemini,,88.0,1,B,"The student implemented Selection Sort, which correctly matches the required algorithm described in the problem. However, there are minor boundary/formatting issues: Variable-Length Arrays (VLAs) (`int a[n]`) are technically a GNU extension rather than standard ISO C++, and the output prints each element on a new line (`endl`) instead of separated by a space as requested in the output format.","The core selection sort logic correctly handles the boundary cases of the loops (i from 0 to n-2, j from i+1 to n-1), correctly avoiding out-of-bounds access. | The output format specifies printing the sorted array with a space between adjacent elements, but the student uses `endl`, placing each element on a new line. | The code uses a Variable-Length Array (`int a[n]`), which is not standard C++ (though supported by many compilers like g++). Given the constraint n < 25, it will not cause a stack overflow on normal systems, but it deviates from standard C++ practices.",gemini-3.5-flash-lite,gemini,,65.0,1,C,The student implemented a variation of exchange sort that does not follow the specific algorithm requested in the problem statement.,"The problem explicitly required finding the minimum element in the remaining array and then swapping it with the current position (Selection Sort). | The student implemented a variation of Exchange Sort (Bubble-like swap logic) which performs multiple swaps per pass rather than finding the minimum index first. | While the output is sorted correctly, the algorithm fails the 'strictly using the given algorithm' constraint. | The time complexity is O(n^2), which is well within the constraints for n < 25. | The space complexity is O(n), which is appropriate.",gemini-3.1-flash-lite,gemini,,"Write a C++ program to sort an array A of n numbers strictly using the given algorithm:
+
+1. Find the minimum element in the array.
+2. Swap the minimum element with the first element of the array.
+3. Find the minimum element in the remaining array.
+4. Swap the minimum element with the second element of the array.
+5. Repeat steps 3 and 4 until the entire array is sorted.
+
+Constraints:
+
+* n < 25
+
+Input Format:
+
+* Non-negative integer n
+* Array A of n elements
+
+Output Format:
+
+* Print the sorted array with a space between adjacent elements.","#include<simplecpp>
+
+main_program{
+int n;
+cin>>n;
+int a[n];
+for(int i=0;i<n;i++)
+ cin>>a[i];
+for(int i=0;i<n-1;i++)
+{
+  for(int j=i+1;j<n;j++)
+{
+  if(a[j]<a[i]){
+  int temp=a[j];
+  a[j]=a[i];
+  a[i]=temp;
+}
+}
+
+
+}
+for(int i=0;i<n;i++)
+{
+cout<<a[i]<<endl;
+}
+
+
+
+
+
+}"
+2026-09-16T08:04:03.406150+00:00,all_samples:1,mix:mixed,gemini-3.1-flash-lite | gemini-3.5-flash-lite | qwen2.5-coder:14b,gemini | ollama,Overall program correctness,B,D,26.75,0.4445,0.0,0.0,,Agent call failed.,,qwen2.5-coder:14b,ollama,"ollama request failed: Server error '500 Internal Server Error' for url 'http://localhost:11434/api/chat'
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/500",65.0,1,C,The code demonstrates a basic understanding of the logic required but suffers from significant style and implementation issues that hinder maintainability and correctness.,"The use of 'simplecpp' is non-standard and limits portability. | Variable naming is poor (e.g., 'm', 'n', 'i', 'dec'), making the logic difficult to follow. | The code contains logic errors in the fractional part calculation and output formatting (e.g., 'cout.precision(2)' is called after printing the value, and 'fixed' is missing). | The use of 'pow' with integer arithmetic is prone to precision issues and is generally discouraged for binary-to-decimal conversion. | The code lacks comments or documentation to explain the conversion logic. | Formatting is inconsistent, particularly with indentation.",gemini-3.1-flash-lite,gemini,,45.0,0.95,D,"The student submission attempts to solve the problem using separate functions for the integer and fractional parts, but suffers from several critical logical, floating-point, and formatting issues. First, the fraction conversion logic uses `pow` and integer division in a way that does not correctly compute fractional binary values (e.g., treating each digit with incorrect weights). Second, the code uses `pow` with integers which can lead to precision inaccuracies. Third, `cout.precision(2)` is placed after `cout<<ans;`, meaning it does not format the output to two decimal places as requested. Finally, `ans` is declared as an `int`, which truncates any fractional result before printing.","Input: m = 10, n = 1 | Expected: 2.50 | Likely behavior: 2 | Why: The variable 'ans' is declared as an integer, truncating the fractional part, and cout.precision(2) is called after printing. | Input: m = 0, n = 1 | Expected: 0.50 | Likely behavior: Incorrect decimal value due to flawed digit weighting in the fracpart function. | Formatting defect: cout.precision(2) is placed after cout<<ans;, failing to format the output to two decimal places.",gemini-3.5-flash-lite,gemini,,60.0,1,D,"The student's submission attempts to solve the problem by implementing separate functions for the integer and fractional parts. However, there are significant edge-case failures, floating-point precision issues with standard library math functions like pow(), incorrect logic in the fractional part conversion loop, and a failure to correctly format the output with two decimal places due to placing `cout.precision(2)` after the output statement.","Precision handling edge case: `cout.precision(2)` is placed *after* `cout << ans;`, meaning it has no effect on the printed output format. Furthermore, `ans` is declared as an `int`, which truncates any fractional value before printing. | Fractional part loop edge case: The logic in `fracpart` uses `pow(2, -digits)` inside a loop dependent on `digits`, which does not correctly weight standard fractional binary representation (where weights are $2^{-1}, 2^{-2}, 2^{-3}$, etc., based on position from the radix point). | Floating-point accuracy edge case: Using `pow()` with integers in loops for base-2 and base-10 operations can introduce floating-point inaccuracies, especially for larger binary strings. | Data type limitations: Reading binary parts as `int` `m` and `n` fails for binary fractions that start with leading zeros (e.g., fractional part `001` read as integer `1`), causing `fracpart` to miscalculate the number of digits and shift weights incorrectly.",gemini-3.5-flash-lite,gemini,,45.0,1,D,The algorithm is inefficient due to repeated floating-point exponentiation and has critical logic errors in the fractional conversion and output formatting.,"The time complexity is O(D^2) where D is the number of digits, due to calling pow() inside a loop, which is inefficient but acceptable for small inputs. | The fractional part conversion logic is mathematically incorrect; it fails to correctly weight binary digits based on their position relative to the radix point. | The program fails to output the result with two decimal places as requested; it uses cout.precision(2) after printing the value, and the variable 'ans' is declared as an integer, truncating the result. | The use of pow() with integers for binary conversion is prone to precision issues, though not the primary cause of failure here. | The logic for fractional conversion is overly complex and does not correctly implement the standard positional notation for binary fractions.",gemini-3.1-flash-lite,gemini,,"Write a C++ program to convert a binary number (that may contain a fractional part) into its corresponding decimal value. The program should take two binary values as input, one representing the number before the radix point and the other representing the number after the radix point. The program should convert the binary values into their corresponding decimal values and print the resulting value rounded to two decimal places. The program should use functions to convert the integer and fractional binary parts into integer and double values, respectively, and add the integer and double values to obtain the final decimal value. The program should use the cout statement to print the resulting value with two digits after the decimal point.","#include <simplecpp>
+
+int intpart(int m){
+
+	int dec=0,i=1,temp;
+	dec+=m%10;
+	while(m/pow(10,i)!=0){
+		temp=m/pow(10,i);
+		dec+=(temp%10)*pow(2,i);
+		i++;
+	}
+
+return dec;
+}
+
+double fracpart(int n){
+
+	float dec=0,i=1;
+	int digits=0,temp;
+	while(n/pow(10,digits)!=0){
+		digits++;
+	}
+	dec+=(n%10)*pow(2,-digits);
+	repeat(digits){
+		temp=n/pow(10,i);
+		dec+=float((temp%10))*pow(2,-digits);
+		digits--;
+	}
+	return dec;
+}
+
+main_program{
+	int m,n;
+	cin>>m>>n;
+	int ans;
+	ans=double(intpart(m))+fracpart(n);
+	cout<<ans;
+	cout.precision(2);
+}"
+2026-09-16T08:06:26.738109+00:00,all_samples:0,mix:mixed,gemini-3.1-flash-lite | gemini-3.5-flash-lite | qwen2.5-coder:14b,gemini | ollama,Overall program correctness,A,A,87.5,0.985,85.0,1,B,"The program correctly computes the LCM of two integers and prints the result. However, there are minor issues with formatting and naming conventions.","The program correctly calculates the GCD using the Euclidean algorithm. | The LCM function correctly uses the GCD to compute the LCM. | The main function correctly reads input, calls the GCD and LCM functions, and prints the result. | There are minor formatting issues, such as inconsistent spacing and naming conventions (e.g., 'LCM' should be lowercase). | The 'main_program' block should be 'int main()' for standard C++ syntax.",qwen2.5-coder:14b,ollama,,85.0,1,B,"The code is functional and logically sound, but suffers from inconsistent indentation and poor formatting, which hinders readability.","Inconsistent indentation throughout the file (e.g., inside the LCM function and main_program). | Variable naming is generally clear, though the LCM function signature is slightly unconventional by requiring the GCD as an argument. | Formatting is erratic, with some lines having excessive whitespace and others being cramped. | The code lacks consistent spacing around operators and after commas, making it look cluttered.",gemini-3.1-flash-lite,gemini,,95.0,1,A,"The student's submission correctly implements the computation of the Least Common Multiple (LCM) using the standard GCD relation (LCM(a,b) = (a*b)/GCD(a,b)). The program takes two positive integers as input, computes the GCD via a standard Euclidean algorithm, computes the LCM, and prints the result in the main function as requested.",,gemini-3.5-flash-lite,gemini,,85.0,1,B,"The student's submission correctly implements the computation of the Least Common Multiple (LCM) using the Greatest Common Divisor (GCD) via the standard formula (A * B) / GCD. It handles typical positive integer inputs well. However, from an edge-case and robustness perspective, there is a risk of integer overflow for large inputs because `c * d` is computed before dividing by `GCD`. Additionally, the `gcd` function uses the Euclidean algorithm with `a % b`, which works for standard positive integers but assumes `a >= b` in the first iteration; while standard modulo handles `a < b` correctly by swapping them on the first step, strict ordering could be a mild edge-case concern. Overall, core functionality is present with minor robustness issues.","Potential integer overflow: The product `c * d` is calculated before division by `GCD`, which can overflow standard 32-bit signed integers for relatively small inputs whose LCM exceeds the integer limit. | Order of inputs in GCD: The Euclidean algorithm implementation `while(a%b!=0)` relies on standard modulo properties. If `a < b`, the first iteration correctly swaps `a` and `b` via remainder, which is robust, but lack of explicit input validation or swapping can be a minor stylistic boundary concern.",gemini-3.5-flash-lite,gemini,,95.0,1,A,"The algorithm correctly computes the LCM using the relationship LCM(a, b) = (a * b) / GCD(a, b). The time complexity is O(log(min(A, B))) due to the Euclidean algorithm for GCD, which is highly efficient.","The GCD implementation using the Euclidean algorithm is optimal with O(log(min(A, B))) time complexity. | The LCM calculation is performed in O(1) time after the GCD is computed. | Space complexity is O(1) as it uses a constant amount of extra space. | The approach is well within the limits for standard integer inputs.",gemini-3.1-flash-lite,gemini,,"Write a program that takes two positive integers A and B as input, passes them to a function that computes the LCM, and finally prints the result in the main function.","#include<simplecpp>
+
+int LCM
+(int c,int d,int GCD)
+{
+int 	lcm=c*d/GCD;
+return lcm;}
+int gcd
+(int a,int b)
+{
+while(a%b!=0)
+{	int rem=a%b;
+a=b;
+b=rem;
+}
+
+return b;
+
+}
+main_program{
+	int A,B;
+	cin>>A>>B;
+	int GCD=gcd( A, B);
+	int lcm=LCM(A,B,GCD);
+	cout<<endl<<lcm;}"
+2026-09-16T08:07:12.932479+00:00,all_samples:1,mix:mixed,gemini-3.1-flash-lite | gemini-3.5-flash-lite | qwen2.5-coder:14b,gemini | ollama,Overall program correctness,A,A,95.2,0.9732,95.0,1,A,"The program correctly determines whether a given positive integer is a palindrome and prints 1 if it is, otherwise 0. It does not use arrays and handles the input as specified.","The program reads a positive integer from the user. | It reverses the digits of the number using a loop. | It compares the reversed number with the original number to check for palindrome. | The program prints 1 if the number is a palindrome, otherwise 0. | The program does not use arrays, as required.",qwen2.5-coder:14b,ollama,,92.0,1,A,"The code is clean, readable, and follows standard C++ conventions. It effectively avoids arrays and uses a clear logic for reversing the integer.","Variable naming is somewhat terse (e.g., 's', 'c', 'n'), though acceptable for a short, simple algorithm. | Formatting is consistent and indentation is logical. | The code is concise and free of dead or duplicated code. | The logic is easy to follow and maintainable.",gemini-3.1-flash-lite,gemini,,95.0,0.95,A,"The student submission correctly implements the palindrome check for integers without using arrays, following all requirements. It properly reverses the integer mathematically and compares it to the original input, printing 1 or 0 accordingly.",Input: 121 | Expected: 1 | Likely behavior: 1 | Why: The standard palindrome logic correctly reverses the digits and matches them.,gemini-3.5-flash-lite,gemini,,95.0,0.95,A,"The student's solution correctly implements the palindrome check for positive integers without using arrays, following standard arithmetic reversal logic. It handles typical edge cases such as single-digit numbers correctly. However, like standard integer reversal approaches, it may suffer from integer overflow if tested with extremely large palindromic numbers that exceed the capacity of a standard 32-bit signed integer, though this is typical and acceptable unless specifically constrained.","Correctly handles single-digit numbers, which are inherent palindromes. | Correctly processes multi-digit palindromes and non-palindromes. | Does not use arrays as requested by the constraints. | Potential risk of integer overflow for inputs near the maximum limit of a 32-bit signed integer when reversed, though standard for basic integer-based solutions.",gemini-3.5-flash-lite,gemini,,100,1,A,"The algorithm is optimal for the given problem, achieving O(log n) time complexity and O(1) space complexity.","The algorithm uses a single loop to reverse the integer, which is the standard and most efficient approach for this problem. | Time complexity is O(log10(n)), which is proportional to the number of digits in the input, well within acceptable limits. | Space complexity is O(1) as it only uses a few integer variables, satisfying the constraint to avoid arrays. | The logic correctly handles the palindrome check without requiring extra memory or complex data structures.",gemini-3.1-flash-lite,gemini,,"Write a C++ program that takes a positive integer as input from the user and determines whether or not it is a palindrome. The program should print 1 if the number is a palindrome, otherwise print 0. The input number should be greater than 0 and should not begin with 0. The program should not use arrays.","#include<iostream>
+using namespace std;
+int main(){
+int n,c;
+int s=0;
+cin >> n;
+int num1=n;
+while(num1>0)
+{
+  c=num1%10;
+  s=(s*10)+c;
+  num1=num1/10;
+}
+if(s==n)
+cout << 1;
+else 
+cout << 0;
+return 0;
+}"
+2026-09-16T08:08:01.638651+00:00,all_samples:2,mix:mixed,gemini-3.1-flash-lite | gemini-3.5-flash-lite | qwen2.5-coder:14b,gemini | ollama,Overall program correctness,A,A,94.5,0.9697,95.0,1,A,"The program correctly performs addition, subtraction, multiplication, and division on two complex numbers and outputs the result with 3 digits after the decimal point.","The program correctly reads the input values for the two complex numbers and the operation. | The program correctly implements the addition, subtraction, multiplication, and division operations for complex numbers. | The program correctly formats the output to 3 decimal places. | The commented-out switch-case structure is correct but not used in the final submission.",qwen2.5-coder:14b,ollama,,88.0,0.95,B,"The code is functional and readable, but contains some stylistic inconsistencies and dead code.","The code includes a large block of commented-out code at the end, which is considered dead code and should be removed for better maintainability. | The formatting is inconsistent, particularly with the placement of braces and indentation levels. | The use of 'fixed' and 'precision' is repeated inside every if/else block; this could be simplified by setting these once before the conditional logic. | Variable naming is clear and descriptive enough for the scope of the problem. | The logic is easy to follow despite the minor formatting issues.",gemini-3.1-flash-lite,gemini,,100,0.95,A,"The student's program correctly implements addition, subtraction, multiplication, and division of two complex numbers given their real and imaginary parts. It properly formats the output to 3 decimal places using std::fixed and std::precision(3), and correctly handles the mathematical formulas for all operations, including complex division.",Input: 1.0 2.0 3.0 4.0 A | Expected: 4.000 6.000 | Likely behavior: 4.000 6.000 | Why: The addition branch correctly adds real parts and imaginary parts separately and sets precision correctly.,gemini-3.5-flash-lite,gemini,,88.0,1,B,"The student's program correctly handles complex number addition, subtraction, multiplication, and division with the requested 3 decimal place precision. However, it lacks handling for the edge case of division by zero (when the denominator real2^2 + imag2^2 equals zero), which will result in NaN or inf output.","Division by zero edge case is unhandled: if the divisor complex number is zero (0 0), the denominator (real2^2 + imag2^2) evaluates to 0, leading to division by zero. | Correctly implements complex number formulas for addition, subtraction, multiplication, and division. | Correctly formats output to 3 decimal places using fixed and precision.",gemini-3.5-flash-lite,gemini,,100,1,A,"The algorithm uses a direct O(1) mathematical approach for complex number arithmetic, which is optimal for this problem.","The time complexity is O(1) as it performs a constant number of arithmetic operations regardless of input values. | The space complexity is O(1) as it uses a fixed number of variables. | The approach is perfectly suited for the constraints of the problem. | The logic correctly implements complex addition, subtraction, multiplication, and division.",gemini-3.1-flash-lite,gemini,,"Write a program that takes as input two complex numbers and performs one of the following operations on them: addition, subtraction, multiplication, or division. The output should be the result of the operation, with 3 digits after the decimal point. The input should be two pairs of floating-point numbers indicating the real and imaginary parts of the complex numbers, separated by spaces, followed by a letter indicating the operation to be performed. The output should be two space-separated numbers, with the real part followed by the imaginary part.","#include<simplecpp>
+main_program{
+	float real1, imag1, real2, imag2;
+	
+	char r; // A, S, M, D;
+	
+	cin>>real1>>imag1>>real2>>imag2>>r;
+
+	if(r=='A'){
+		float k=real1+real2;
+		cout<<fixed;
+		cout.precision(3);
+		cout<<k<< "" ""<<(imag1+imag2)<<endl;}
+
+	else if(r=='S'){
+		cout<<fixed;
+		cout.precision(3);
+		cout<<(real1-real2)<<"" ""<<(imag1-imag2)<<endl;}
+	else if(r=='M'){
+		cout<<fixed;
+		cout.precision(3);
+		cout<<(real1*real2-imag1*imag2)<< "" ""<< (real1*imag2+real2*imag1)<<endl;}
+	else if(r=='D'){
+		cout<<fixed;
+		cout.precision(3);
+		cout<<((real1*real2+imag1*imag2)/(real2*real2+imag2*imag2))<<"" ""<<((imag1*real2-imag2*real1)/(real2*real2+imag2*imag2))<<endl;}
+
+
+
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*	switch(r){
+		case A : {
+			cout<<(real1+real2)<<"" "" <<(imag1+imag2)<<endl;
+			break;
+		}
+
+		case S : {
+			cout<<(real1-real2)<<"" ""<<(imag1-imag2)<<endl;
+			break;}
+
+		case M : {
+			cout<<(real1*real2 - imag1*imag2)<<"" ""<<(real1*imag2 + real2*imag1)<<endl;
+			break;}
+		case D : {
+			cout<<((real1*real2 + imag1*imag2)/(real2*real2 + imag2*imag2))<< "" ""<< ((real2*imag1 - imag2*real1)/(real2*real2+imag2*imag2))<<endl;
+			break;}
+	}}
+	
+*/"
+2026-09-16T08:08:41.461203+00:00,all_samples:3,mix:mixed,gemini-3.1-flash-lite | gemini-3.5-flash-lite | qwen2.5-coder:14b,gemini | ollama,Overall program correctness,A,A,88.75,0.9761,85.0,1,B,The program correctly reverses the digits of the input number and handles the case where the number ends in one or more zeroes by ignoring them.,The program correctly reads a positive integer from the user. | The program correctly reverses the digits of the input number. | The program correctly handles the case where the number ends in one or more zeroes by ignoring them. | The program outputs the reversed number as required.,qwen2.5-coder:14b,ollama,,90.0,1,A,"The code is concise and functionally correct. The style is generally acceptable for a student submission, though it lacks standard formatting conventions.","Naming of variables (n, m, rem) is standard for simple mathematical algorithms. | Formatting is inconsistent; specifically, the while loop body is compressed onto a single line, which reduces readability. | The code lacks whitespace and indentation consistency, which is common in beginner code but should be improved for better maintainability. | The logic is clean and avoids unnecessary complexity.",gemini-3.1-flash-lite,gemini,,95.0,0.99,A,"The student submission implements the standard algorithm for reversing an integer. Trailing zeros are naturally handled because integer multiplication and addition omit leading zeros when printed as an integer (e.g., reversing 120 gives 021, which stored as an integer is 21, matching the requirement to ignore trailing zeros of the original number).","Input: 120 | Expected: 21 | Likely behavior: 21 | Why: The standard `% 10` and `/ 10` loop extracts digits, building `m = 0*10 + 0 = 0`, then `0*10 + 2 = 2`, then `2*10 + 1 = 21`, correctly dropping the trailing zero.",gemini-3.5-flash-lite,gemini,,90.0,0.95,A,"The student submission correctly implements the core logic for reversing a positive integer. Regarding edge cases, trailing zeros in the input (e.g., 1200) are naturally handled because the standard mathematical reversal method (multiplying by 10 and adding the remainder) strips leading zeros of the reversed number automatically when printed as an integer (e.g., 0021 prints as 21).","Trailing zeros in input integers (e.g., 1200) are correctly ignored in the output because the integer accumulation discards leading zeros of the reversed result. | Single-digit inputs and inputs that are already palindromes are handled correctly. | Negative numbers are not expected based on the problem statement ('positive integer n'), but if given, the standard modulo operator behavior in C++ with negative numbers might lead to unexpected outputs; however, this is outside the explicit problem constraints.",gemini-3.5-flash-lite,gemini,,95.0,1,A,"The algorithm is optimal for the given problem, operating in logarithmic time relative to the input value.","The algorithm uses a standard digit-extraction approach with O(log10(n)) time complexity, which is highly efficient. | Space complexity is O(1) as it uses a fixed number of integer variables. | The logic correctly handles trailing zeros by the nature of the mathematical reversal (e.g., 120 becomes 21), satisfying the problem requirement. | The solution is well-suited for standard integer constraints.",gemini-3.1-flash-lite,gemini,,"Write a C++ program that takes a positive integer n as input from the user and prints a number m whose digits are in reverse order as compared to n. If the number ends in one or more zeroes, then those zeroes should be ignored while printing the reverse.","#include<iostream>
+using namespace std;
+int main(){
+	int n,m=0,rem;
+	cin>>n;
+	while(n!=0){rem=n%10;
+	m=m*10+rem;
+	n /= 10;}
+		cout<<m;
+}"
+2026-09-16T08:09:17.569489+00:00,all_samples:4,mix:mixed,gemini-3.1-flash-lite | gemini-3.5-flash-lite | qwen2.5-coder:14b,gemini | ollama,Overall program correctness,A,A,95.2,0.988,95.0,1,A,The program correctly computes the LCM of two positive integers and prints the result.,"The `lcm` function correctly calculates the least common multiple using the Euclidean algorithm. | The main program correctly reads two integers, calls the `lcm` function, and prints the result. | The code is well-structured and follows the problem requirements.",qwen2.5-coder:14b,ollama,,92.0,1,A,"The code is clean, readable, and follows standard conventions. The logic is well-structured, and naming is clear.","Consistent indentation and formatting throughout the code. | Variable names are descriptive enough for the context of the problem. | The use of a separate function for the LCM calculation demonstrates good modularity. | Minor stylistic improvement: the variable name 'lcm' inside the function shadows the function name itself, which is generally discouraged, though it does not break the code.",gemini-3.1-flash-lite,gemini,,95.0,1,A,"The student submission implements a correct algorithm for computing the Least Common Multiple (LCM) using the Euclidean algorithm for GCD. It correctly takes two positive integers as input, computes the LCM via a function, and prints the result in the main function as required.","Input: A = 4, B = 6 | Expected: 12 | Likely behavior: 12 | Why: The Euclidean algorithm correctly finds the GCD (2), and the LCM formula (4/2)*(6/2)*2 computes 12 accurately.",gemini-3.5-flash-lite,gemini,,95.0,1,A,"The student's submission correctly implements the computation of the Least Common Multiple (LCM) using the Euclidean algorithm for the Greatest Common Divisor (GCD) combined with the standard relationship lcm(a, b) = (a / gcd(a, b)) * (b / gcd(a, b)) * gcd(a, b) (or equivalently (a * b) / gcd(a, b) restructured to avoid intermediate overflow). The code correctly takes two positive integers as input, computes the LCM via a function, and prints the result in the main program using simplecpp syntax.","The use of (a/x)*(b/x)*x correctly avoids potential integer overflow that could occur if a*b was computed first, provided A and B are positive integers. | The Euclidean algorithm loop correctly terminates for standard positive integers, including cases where A and B are equal or where one is a multiple of the other.",gemini-3.5-flash-lite,gemini,,100,1,A,"The program correctly implements the LCM calculation using the Euclidean algorithm for GCD, which is efficient and appropriate for the given task.","The algorithm uses the Euclidean algorithm to find the GCD, which has a time complexity of O(log(min(A, B))). | The space complexity is O(1) as it uses a constant amount of extra space. | The logic (a/gcd * b/gcd * gcd) is mathematically sound and avoids potential overflow issues better than (a*b)/gcd. | The implementation is well within the efficiency requirements for standard integer inputs.",gemini-3.1-flash-lite,gemini,,"Write a program that takes two positive integers A and B as input, passes them to a function that computes the LCM, and finally prints the result in the main function.","#include<simplecpp>
+int lcm(int a, int b){
+	int x=a;
+	int y=b;
+	while(y%x!=0){
+		int z=x;
+	        x=y%x;
+	        y=z;
+	}
+	int lcm;
+	lcm=(a/x)*(b/x)*x;
+	return lcm;
+}
+main_program{
+	int A,B;
+	cin>>A>>B;
+	int lcmm;
+	lcmm=lcm(A,B);
+	cout<<lcmm;
+}"
+2026-09-16T08:10:05.063558+00:00,all_samples:5,mix:mixed,gemini-3.1-flash-lite | gemini-3.5-flash-lite | qwen2.5-coder:14b,gemini | ollama,Overall program correctness,A,A,91.4,0.9775,85.0,1,B,"The program correctly implements the sorting algorithm and handles input and output as specified. However, there is a minor issue with the output format.","The program correctly finds the minimum element in the array and swaps it with the first element of the array. | The program correctly repeats the process for the remaining array until the entire array is sorted. | The program handles input and output as specified. | There is a minor issue with the output format: the program prints a space after the last element, which is not required by the problem statement.",qwen2.5-coder:14b,ollama,,92.0,1,A,"The code is clean, readable, and follows the specified algorithm well. The naming is clear, and the structure is logical.","Variable naming is descriptive enough for the context (e.g., minindex, myswap). | The use of pointer arithmetic to pass subarrays to the minindex function is clever and effective. | Formatting is consistent and indentation is correct. | The use of a Variable Length Array (int a[n]) is technically non-standard in C++ but widely supported by compilers and acceptable for a student submission given the constraint n < 25. | The output logic correctly handles the trailing space requirement.",gemini-3.1-flash-lite,gemini,,100,1,A,"The student submission correctly implements selection sort using pointer arithmetic to find the minimum element in the remaining array and swap it into the correct position. The solution handles variable-length arrays within the constraints, correctly uses the custom swap and minindex functions, and formats the output properly.",,gemini-3.5-flash-lite,gemini,,98.0,1,A,"The student submission correctly implements the selection sort algorithm as specified by the problem. Edge cases such as single-element arrays (n=1), arrays with duplicate values, and already sorted or reverse-sorted arrays are handled correctly by the loop bounds and index offset logic.","Handles single-element arrays (n=1) correctly by bypassing the sorting loop (since i < n-1 is false) and printing the single element properly without trailing issues. | Handles duplicate elements correctly because the minimum search uses strictly less than (<), ensuring stability and correct index identification on ties. | Variable-length array (VLA) extension 'int a[n]' is used, which is non-standard C++ but works fine within common compilers and adheres to the constraint n < 25. | Correctly offsets the pointer and index in minindex function (a+i and minin+i) to properly handle sub-arrays during selection sort iterations.",gemini-3.5-flash-lite,gemini,,100,1,A,The student correctly implemented the Selection Sort algorithm as specified in the problem description.,"The algorithm implemented is Selection Sort, which matches the required steps. | Time complexity is O(n^2), which is perfectly acceptable for n < 25. | Space complexity is O(n) due to the array storage, which is optimal for this problem. | The use of pointer arithmetic (a+i) to pass the remaining subarray to the minindex function is a correct and efficient way to handle the sub-problem logic. | The constraints (n < 25) are very small, making the O(n^2) approach highly efficient.",gemini-3.1-flash-lite,gemini,,"Write a C++ program to sort an array A of n numbers strictly using the given algorithm:
+
+1. Find the minimum element in the array.
+2. Swap the minimum element with the first element of the array.
+3. Find the minimum element in the remaining array.
+4. Swap the minimum element with the second element of the array.
+5. Repeat steps 3 and 4 until the entire array is sorted.
+
+Constraints:
+
+* n < 25
+
+Input Format:
+
+* Non-negative integer n
+* Array A of n elements
+
+Output Format:
+
+* Print the sorted array with a space between adjacent elements.","#include <iostream>
+using namespace std;
+
+void myswap(int &a, int &b)
+{
+	int temp = a;
+	a = b;
+	b = temp;
+}
+
+int minindex(int *a, int n)
+{
+	int minindex = 0;
+	for(int i = 1; i<n; i++)
+	{
+		if(a[i] < a[minindex]) minindex = i;
+	}
+	return minindex;
+}
+
+int main ()
+{
+	int n;
+	cin >> n;
+	int a[n];
+	for(int i=0; i<n; i++) cin >> a[i];
+	
+	for(int i=0; i<n-1; i++)
+	{
+		int minin = minindex(a+i, n-i);
+		myswap(a[i], a[minin+i]);
+	}
+	
+	for(int i=0; i<n-1; i++) cout << a[i] << "" "";
+	cout << a[n-1];
+}"
+2026-09-16T08:10:44.425347+00:00,all_samples:6,mix:mixed,gemini-3.1-flash-lite | gemini-3.5-flash-lite | qwen2.5-coder:14b,gemini | ollama,Overall program correctness,A,B,78.75,0.9124,75.0,0.9,C,The program attempts to sort the array using a selection sort-like approach but contains a minor issue in the output format.,The program correctly implements the logic to find the minimum element in the remaining array and swap it with the current element. | The input handling and computation are correct. | The output format is incorrect as it prints each element on a new line instead of separating them with a space.,qwen2.5-coder:14b,ollama,,88.0,0.95,B,"The code implements the selection sort algorithm correctly and is readable. The primary style issues are inconsistent indentation and the use of endl instead of spaces for output, which deviates from the requested output format.","The code uses a standard selection sort logic which is easy to follow. | Indentation is inconsistent throughout the nested loops, making the structure slightly harder to read. | The output format uses 'endl' (newlines) instead of the requested space-separated format. | Variable naming is simple but sufficient for a small program. | The use of VLA (Variable Length Array) 'int a[n]' is non-standard in C++ but acceptable for simple student exercises.",gemini-3.1-flash-lite,gemini,,88.0,1,B,"The student implemented selection sort correctly in terms of logic and functionality, matching the iterative min-finding and swapping algorithm specified. However, there is a minor formatting discrepancy in the output: the problem statement requests spaces between adjacent elements, whereas the student's code prints each element on a new line using endl.","Input: n = 3, array = [3, 1, 2] | Expected: 1 2 3 (space-separated on a single line) | Likely behavior: Prints each element on a separate line (1
+2
+3) | Why: The student used cout << a[i] << endl; instead of printing with spaces.",gemini-3.5-flash-lite,gemini,,85.0,1,B,"The student implemented Selection Sort correctly, which matches the required algorithm steps. However, there is a minor formatting issue with the output: the problem specifies printing the sorted array with a space between adjacent elements, whereas the student prints each element on a new line (using endl).","The code correctly implements the selection sort algorithm specified in the problem statement. | Array allocation uses Variable Length Arrays (VLA) `int a[n];`, which is a non-standard C++ extension, but acceptable given the constraint $n < 25$. | Boundary condition $n=0$ or $n=1$ works correctly because the loop condition `i < n-1` will not execute, leaving the array untouched and printing correctly. | Output formatting constraint ('with a space between adjacent elements') is violated by using `cout << a[i] << endl;`.",gemini-3.5-flash-lite,gemini,,65.0,1,C,The student implemented a variation of exchange sort that is functionally equivalent to bubble sort rather than the requested selection sort algorithm.,"The algorithm implemented is an exchange sort that swaps elements immediately upon finding a smaller value, rather than finding the minimum of the remaining subarray first. | The problem explicitly required finding the minimum element in the remaining array and then performing a single swap per iteration (Selection Sort). | The time complexity of the submitted code is O(n^2), which is efficient enough for n < 25. | The space complexity is O(n), which is appropriate for the given constraints. | The output format uses endl instead of a space between elements as requested, which is a minor formatting error.",gemini-3.1-flash-lite,gemini,,"Write a C++ program to sort an array A of n numbers strictly using the given algorithm:
+
+1. Find the minimum element in the array.
+2. Swap the minimum element with the first element of the array.
+3. Find the minimum element in the remaining array.
+4. Swap the minimum element with the second element of the array.
+5. Repeat steps 3 and 4 until the entire array is sorted.
+
+Constraints:
+
+* n < 25
+
+Input Format:
+
+* Non-negative integer n
+* Array A of n elements
+
+Output Format:
+
+* Print the sorted array with a space between adjacent elements.","#include<simplecpp>
+
+main_program{
+int n;
+cin>>n;
+int a[n];
+for(int i=0;i<n;i++)
+ cin>>a[i];
+for(int i=0;i<n-1;i++)
+{
+  for(int j=i+1;j<n;j++)
+{
+  if(a[j]<a[i]){
+  int temp=a[j];
+  a[j]=a[i];
+  a[i]=temp;
+}
+}
+
+
+}
+for(int i=0;i<n;i++)
+{
+cout<<a[i]<<endl;
+}
+
+
+
+
+
+}"
+2026-09-16T08:11:23.585590+00:00,all_samples:7,mix:mixed,gemini-3.1-flash-lite | gemini-3.5-flash-lite | qwen2.5-coder:14b,gemini | ollama,Overall program correctness,A,A,97.25,0.985,98.0,1,A,The program correctly implements the given sorting algorithm and handles the input and output as specified.,"The program reads the number of elements and the array correctly. | The sorting algorithm finds the minimum element in the remaining array and swaps it with the current element, which is implemented correctly. | The program outputs the sorted array with a space between adjacent elements. | There are no noticeable issues or errors in the code.",qwen2.5-coder:14b,ollama,,90.0,1,A,"The code is clean, readable, and follows the requested algorithm correctly. Variable naming is concise but understandable in the context of a simple sorting algorithm.","Variable names 'p' (position/index) and 't' (temporary) are standard for this type of algorithm, though slightly more descriptive names would be preferred in larger projects. | Formatting is consistent and indentation is correct. | The use of pointer arithmetic in the final loop is a stylistic choice that is valid in C++, though array indexing (a[i]) would be more idiomatic for readability. | The code is well-structured and avoids unnecessary complexity.",gemini-3.1-flash-lite,gemini,,100,1,A,"The student submission implements selection sort correctly according to the problem description, using standard C++ constructs. Variable-length arrays (VLAs) are used, which are supported as a compiler extension in C++ (and satisfy n < 25), and the algorithm correctly finds the minimum and swaps it in each iteration.",,gemini-3.5-flash-lite,gemini,,95.0,1,A,"The student submission implements the selection sort algorithm correctly, matching the required steps of finding the minimum element in the remaining array and swapping it into place. It correctly handles typical cases and common boundary conditions such as $n=0$ (via standard loop termination), single-element arrays, and arrays with duplicate elements.","The code uses a Variable Length Array (VLA) `int a[n];`, which is technically a non-standard extension in C++ (though supported by many compilers like GCC/Clang). However, given the constraint $n < 25$, this does not risk stack overflow in practice. | Handles duplicate elements correctly because strict inequality `a[p] > a[j]` preserves stability/correctness for equal values. | Correctly handles boundary cases such as $n=1$ and already sorted arrays without out-of-bounds indexing errors.",gemini-3.5-flash-lite,gemini,,100,1,A,"The student correctly implemented the Selection Sort algorithm as requested. The time complexity is O(n^2) and space complexity is O(n), which is perfectly acceptable for the constraint n < 25.","The algorithm implemented is Selection Sort, which matches the problem's step-by-step requirements. | The time complexity is O(n^2) due to the nested loops, which is efficient enough for n < 25. | The space complexity is O(n) to store the array, which is optimal for this problem. | The implementation correctly handles the swapping logic and index tracking.",gemini-3.1-flash-lite,gemini,,"Write a C++ program to sort an array A of n numbers strictly using the given algorithm:
+
+1. Find the minimum element in the array.
+2. Swap the minimum element with the first element of the array.
+3. Find the minimum element in the remaining array.
+4. Swap the minimum element with the second element of the array.
+5. Repeat steps 3 and 4 until the entire array is sorted.
+
+Constraints:
+
+* n < 25
+
+Input Format:
+
+* Non-negative integer n
+* Array A of n elements
+
+Output Format:
+
+* Print the sorted array with a space between adjacent elements.","#include <iostream>
+using namespace std;
+int main(){
+    int n;
+    cin >> n;
+    int a[n];
+    for(int i=0; i<n; i++){
+        cin >> a[i];
+    }    
+    for(int i=0; i<n; i++){
+        int p=i;
+        for(int j=i; j<n; j++){
+            if(a[p]>a[j]){
+                p=j;
+            }
+        }    
+        int t=a[i];
+        a[i]=a[p];
+        a[p]=t;
+    }
+    for(int i=0; i<n; i++){
+        cout << *(a+i) << "" "";
+    }                
+}"
+2026-09-16T08:12:07.015976+00:00,all_samples:8,mix:mixed,gemini-3.1-flash-lite | gemini-3.5-flash-lite | qwen2.5-coder:14b,gemini | ollama,Overall program correctness,A,A,86.7,0.9776,85.0,1,B,"The program correctly handles addition, subtraction, multiplication, and division of complex numbers. However, it does not handle the case where the denominator is zero during division, which could lead to a runtime error.","The program correctly performs addition, subtraction, multiplication, and division of complex numbers. | The output is formatted to three decimal places as required. | The program does not handle the case where the denominator is zero during division, which could lead to a runtime error.",qwen2.5-coder:14b,ollama,,92.0,1,A,"The code is clean, readable, and follows standard conventions. The logic is well-structured using a switch statement.","Variable naming is clear and descriptive. | Formatting is consistent and easy to follow. | The use of fixed and precision is correctly implemented for the required output format. | The code is concise and avoids unnecessary complexity. | Minor improvement: The division logic could be slightly more readable by calculating the denominator once, but it does not significantly impact maintainability.",gemini-3.1-flash-lite,gemini,,85.0,1,B,"The student's submission correctly implements complex number addition, subtraction, multiplication, and formatting with 3 decimal places using `fixed` and `precision(3)`. However, there is a minor bug in the imaginary part formula for complex division.","Input: 1 2 3 4 D | Expected: 0.440 0.080 | Likely behavior: 0.440 -0.240 | Why: The numerator for the imaginary part in division is implemented as (real1 * (-1) * imag2 + real2 * imag1) which evaluates to (-real1 * imag2 + real2 * imag1), whereas the correct formula for (a+bi)/(c+di) imaginary part is (b*c - a*d) / (c^2 + d^2), or specifically (imag1 * real2 - real1 * imag2) / denominator.",gemini-3.5-flash-lite,gemini,,85.0,0.95,B,"The student's program successfully handles the core complex number operations (addition, subtraction, multiplication, and division) using correct mathematical formulas and formats the output to 3 decimal places as requested. However, there is a minor algebraic sign error in the imaginary part of the division operation, and it does not handle the potential division-by-zero edge case.","Division formula error: The imaginary part for division is computed as (real1*(-1)*imag2 + real2*imag1) / denom, which simplifies to (-real1*imag2 + real2*imag1) / denom. The correct formula for (a+bi)/(c+di) has an imaginary part of (bc - ad) / (c^2 + d^2), or specifically (imag1*real2 - real1*imag2) / denom. The student's numerator has the wrong sign order. | Division by zero edge case: No handling or check is provided for when the denominator (real2^2 + imag2^2) is zero, which could result in infinity or NaN outputs. | Proper use of formatting: Successfully uses `fixed` and `setprecision(3)` (via `cout.precision(3)`) to meet the output constraint of 3 digits after the decimal point.",gemini-3.5-flash-lite,gemini,,95.0,1,A,"The algorithm is optimal with O(1) time and space complexity, which is perfectly suited for the problem constraints.","The time complexity is O(1) as it performs a constant number of arithmetic operations regardless of input values. | The space complexity is O(1) as it uses a fixed number of variables. | The logic correctly implements complex number arithmetic, including the division formula. | The solution is highly efficient and appropriate for the given task.",gemini-3.1-flash-lite,gemini,,"Write a program that takes as input two complex numbers and performs one of the following operations on them: addition, subtraction, multiplication, or division. The output should be the result of the operation, with 3 digits after the decimal point. The input should be two pairs of floating-point numbers indicating the real and imaginary parts of the complex numbers, separated by spaces, followed by a letter indicating the operation to be performed. The output should be two space-separated numbers, with the real part followed by the imaginary part.","#include<simplecpp>
+main_program
+{
+	float real1, imag1, real2, imag2;
+	cin>>real1>>imag1>>real2>>imag2;
+	char ch;
+	cin>>ch;
+	cout<<fixed; cout.precision(3);
+	switch(ch)
+	{
+		case 'A': cout<<(real1+real2)<<"" ""<<(imag1+imag2);
+			break;
+		case 'S':cout<<(real1-real2)<<"" ""<<(imag1-imag2);
+			break;
+		case 'M': cout<<real1*real2-imag1*imag2<<"" ""<<real1*imag2+real2*imag1;
+			break;
+		case 'D': cout<<(real1*real2+imag1*imag2)/(real2*real2+imag2*imag2)<<"" ""<<(real1*(-1)*imag2+real2*imag1)/(real2*real2+ imag2*imag2);
+			break;
+	}
+}"
+2026-09-16T08:12:56.839463+00:00,all_samples:9,mix:mixed,gemini-3.1-flash-lite | gemini-3.5-flash-lite | qwen2.5-coder:14b,gemini | ollama,Overall program correctness,A,A,94.7,0.9673,95.0,1,A,The program correctly implements the Babylonian Algorithm to approximate the square root of a given positive real number and outputs the result rounded to three decimal places.,"The program correctly reads a floating-point input value. | The Babylonian Algorithm is correctly implemented with the iterative formula: x_estimate = (x_estimate + x_in/x_estimate)/2. | The loop continues until the difference between the square of the estimate and the input value is less than 1e-6, ensuring a precise approximation. | The result is correctly formatted to three decimal places using cout.precision(3) and cout<<fixed.",qwen2.5-coder:14b,ollama,,92.0,1,A,"The code is clean, readable, and follows standard C++ conventions. It effectively implements the Babylonian algorithm with appropriate precision handling.","Naming is clear and descriptive (e.g., x_in, x_estimate). | Formatting is consistent and indentation is correct. | The use of fixed and precision manipulators is correct for the output requirement. | The code is concise and free of dead or duplicated code. | Minor improvement: The use of 'simplecpp' is non-standard for general C++ development, though acceptable in specific educational contexts.",gemini-3.1-flash-lite,gemini,,100,0.95,A,"The student submission correctly implements the Babylonian algorithm for approximating square roots. It properly handles input, initializes the estimate, iterates using an appropriate convergence threshold with absolute difference, and uses fixed-point formatting with a precision of 3 to display the result as requested.",,gemini-3.5-flash-lite,gemini,,88.0,0.95,B,"The student submission implements the Babylonian algorithm correctly for most standard positive inputs and handles precision formatting as requested. However, it lacks handling for edge cases such as negative numbers (which should be rejected or handled based on the domain), zero, or very small/large inputs where the termination condition `abs(x_estimate*x_estimate-x_in)>1e-6` could lead to infinite loops or precision issues.","The code uses a fixed absolute tolerance of 1e-6 in the while loop condition, which works well for moderate numbers but can cause issues (infinite loops or premature termination) for very small numbers close to zero or extremely large numbers. | Input of zero (`x_in = 0`) causes a division by zero (`x_in/x_estimate`) during the first iteration when `x_estimate = 0`, resulting in undefined behavior or NaN/inf. | Negative inputs are not guarded against; the Babylonian method will cycle indefinitely or produce complex/NaN results. | The precision output `cout << fixed; cout.precision(3);` satisfies the formatting requirement for the final answer.",gemini-3.5-flash-lite,gemini,,98.0,1,A,The Babylonian algorithm is implemented correctly with an appropriate convergence threshold. The time and space complexity are optimal for this iterative approach.,"The algorithm uses a standard iterative approach with O(log(1/epsilon)) convergence, which is highly efficient. | Space complexity is O(1) as it only uses a few floating-point variables. | The convergence threshold of 1e-6 is appropriate for the required precision of 3 decimal places. | The use of 'simplecpp' is acceptable for the context of this problem.",gemini-3.1-flash-lite,gemini,,Write a C++ program that implements the Babylonian Algorithm to approximate the square root of any given positive real number. The program should take a floating-point value as input and print the final approximation of the square root rounded to three digits after the decimal point.,"#include<simplecpp>
+main_program{
+	float x_in;
+	cin>>x_in;
+	float x_estimate = x_in;
+	while(abs(x_estimate*x_estimate-x_in)>1e-6){
+		x_estimate = (x_estimate + x_in/x_estimate)/2;
+	}
+	cout<<fixed;
+	cout.precision(3);
+	cout<<x_estimate;
+
+}"
+2026-09-16T08:13:37.408555+00:00,all_samples:10,mix:mixed,gemini-3.1-flash-lite | gemini-3.5-flash-lite | qwen2.5-coder:14b,gemini | ollama,Overall program correctness,A,A,92.0,0.9775,85.0,1,B,The program correctly reverses the digits of the input number and handles the case where the number ends in one or more zeroes by ignoring them.,The program correctly reads a positive integer from the user. | The program reverses the digits of the input number using a while loop. | The program correctly handles the case where the number ends in one or more zeroes by ignoring them. | The program outputs the reversed number without any trailing zeroes.,qwen2.5-coder:14b,ollama,,95.0,1,A,"The code is clean, concise, and follows standard C++ conventions. It effectively handles the logic for reversing an integer, including the implicit handling of trailing zeros.","Naming is clear and concise (n, temp). | Formatting is consistent and readable. | The logic is efficient and avoids unnecessary complexity. | No dead or duplicated code present. | The solution correctly handles the requirement to ignore trailing zeros by the nature of integer arithmetic.",gemini-3.1-flash-lite,gemini,,100,1,A,"The student submission correctly implements reversing a positive integer using standard arithmetic operations. The loop handles digits from right to left, accumulating them into a temporary variable. Since numbers ending in zeroes naturally have their trailing zeroes shifted to the leading positions when reversed, and standard integer printing in C++ automatically omits leading zeroes (e.g., 012 prints as 12), the requirement to ignore trailing zeroes of the original number is correctly satisfied without any extra conditional logic.","Input: 120 | Expected: 21 | Likely behavior: 21 | Why: The number 120 reversed mathematically is 021, but standard integer accumulation and printing outputs 21, automatically ignoring the leading zero which corresponds to the original trailing zero.",gemini-3.5-flash-lite,gemini,,100,1,A,"The student's solution correctly handles the core requirement, including the natural handling of trailing zeroes (e.g., inputting 120 results in 21, because `n%10` extracts the last digit which is 0, multiplies `temp` (initially 0) by 10, adds 0, and then `n /= 10` drops it before subsequent digits are processed). Boundary cases like single-digit numbers and numbers with trailing zeroes are handled correctly.","The standard integer reversal loop correctly ignores trailing zeroes because leading zeroes in the reversed integer are naturally dropped during arithmetic construction (e.g., 120 -> 21). | Properly handles single-digit positive integers. | Works correctly for the standard positive integer constraints given in the problem.",gemini-3.5-flash-lite,gemini,,100,1,A,"The algorithm correctly reverses the integer and inherently handles trailing zeros by treating the result as an integer, which matches the problem requirements.","The algorithm uses a standard O(log n) approach to reverse the digits of an integer. | The time complexity is logarithmic with respect to the value of n, which is optimal for this problem. | The space complexity is O(1) as it only uses a few integer variables. | The logic correctly handles trailing zeros (e.g., 120 becomes 21) because the integer representation naturally omits leading zeros in the reversed result.",gemini-3.1-flash-lite,gemini,,"Write a C++ program that takes a positive integer n as input from the user and prints a number m whose digits are in reverse order as compared to n. If the number ends in one or more zeroes, then those zeroes should be ignored while printing the reverse.","#include <iostream>
+using namespace std;
+int main(){
+	int n,temp;
+	cin >> n;
+	temp = 0;
+	while (n>0){
+		temp *= 10;
+		temp += n%10;
+		n/=10;
+	}
+	cout << temp;
+	return 0;
+}"
+2026-09-16T08:14:24.679949+00:00,all_samples:11,mix:mixed,gemini-3.1-flash-lite | gemini-3.5-flash-lite | qwen2.5-coder:14b,gemini | ollama,Overall program correctness,A,A,86.75,0.9776,85.0,1,B,"The program correctly reverses the digits of the input number and ignores trailing zeroes. However, it can be simplified and improved for better readability and efficiency.","The program correctly reads a positive integer n from the user. | It calculates the number of digits in n and then constructs the reversed number m, ignoring trailing zeroes. | The logic for reversing the digits is correct, but the implementation can be simplified using modular arithmetic and a more straightforward loop. | There are no major functional failures, but the code could be more efficient and easier to understand.",qwen2.5-coder:14b,ollama,,88.0,1,B,"The code is functional and logically sound, though the formatting and variable naming could be improved for better readability.","Variable names like 'p', 'm', 'd', 'l' are non-descriptive and hinder code maintainability. | The indentation is inconsistent, particularly inside the main function. | The code lacks whitespace around operators and after keywords, making it feel cramped. | The logic is clear and the structure is straightforward despite the lack of descriptive naming. | No comments are provided, though the logic is simple enough that it does not strictly require them.",gemini-3.1-flash-lite,gemini,,88.0,0.95,B,"The student submission correctly reverses positive integers and handles trailing zeroes by design (since numeric values like 120 reversed via arithmetic become 21 automatically without leading zeroes). However, it uses an unnecessarily complex manual power/digit-counting approach instead of the standard modulo/multiplication accumulator loop.","Input: 120 | Expected: 21 | Likely behavior: 21 | Why: The program counts digits, extracts the last digit using arithmetic, multiplies by appropriate powers of 10, and accumulates m. For 120, n=120 gives digits=3, extracts 0, 2, 1, resulting in 21, correctly ignoring trailing zeroes. | Input: 5 | Expected: 5 | Likely behavior: 5 | Why: Single digit numbers work correctly with d=1 and the loop executing once.",gemini-3.5-flash-lite,gemini,,85.0,1,B,"The student's solution successfully reverses the digits of a positive integer using a mathematical approach. Trailing zeros are naturally handled because the standard modulo and division approach extracts digits sequentially and constructs the new number from left to right based on the number of digits. However, the solution uses standard integer types (`int`), which are susceptible to integer overflow for large input values, and it does not explicitly handle potential edge cases like single-digit numbers correctly due to how variables are initialized and updated.","The code correctly reverses standard positive integers and ignores trailing zeros due to the multiplier decreasing as digits are processed from right to left. | For single-digit numbers (e.g., n = 5), d is calculated as 1, j starts at 0, and the loop runs once, correctly yielding 5. | Integer overflow is a potential edge-case vulnerability since standard `int` has a limited range (typically up to ~2 billion), and reversing a large 10-digit number will cause undefined behavior. | No explicit handling for zero or negative inputs, though the problem statement specifies 'positive integer n'.",gemini-3.5-flash-lite,gemini,,95.0,1,A,"The algorithm correctly reverses the integer while handling trailing zeros implicitly through mathematical reconstruction. The time complexity is O(d^2) where d is the number of digits, which is highly efficient for standard integer types.","The algorithm uses a nested loop structure to calculate powers of 10, resulting in O(d^2) time complexity where d is the number of digits (log10(n)). | Given that d is at most 10 for a 32-bit integer, the O(d^2) approach is effectively constant time and well within performance requirements. | The logic correctly handles trailing zeros by processing digits from right to left and multiplying by the appropriate power of 10, which naturally omits leading zeros in the result. | Space complexity is O(1) as it uses a fixed number of integer variables regardless of input size.",gemini-3.1-flash-lite,gemini,,"Write a C++ program that takes a positive integer n as input from the user and prints a number m whose digits are in reverse order as compared to n. If the number ends in one or more zeroes, then those zeroes should be ignored while printing the reverse.","#include<iostream>
+
+using namespace std;
+
+int main() {
+int n,p=0,m=0,d=0; cin>>n;
+p = n;
+
+	while (p!=0) {
+	p /= 10;
+	d++;
+	}
+
+	for (int j=(d-1); j>=0; j--) {
+		int l = 1;
+		for (int k=1; k<=j; k++) l *= 10;
+	m += (n - (n/10)*10)*l;
+	n /= 10;
+	}
+
+cout<<(m);
+return 0;
+}"
+2026-09-16T08:14:56.989377+00:00,all_samples:12,mix:mixed,gemini-3.1-flash-lite | gemini-3.5-flash-lite | qwen2.5-coder:14b,gemini | ollama,Overall program correctness,A,A,91.0,0.9702,95.0,1,A,"The program correctly reads a positive integer, removes trailing zeroes, and prints the digits in reverse order.",The program correctly handles the input and output as specified. | The logic to remove trailing zeroes and reverse the digits is implemented correctly. | No issues or errors are present in the code.,qwen2.5-coder:14b,ollama,,85.0,1,B,"The code is functional and concise, but lacks standard formatting and readability conventions.","The code lacks consistent indentation and whitespace, making it difficult to read. | Variable naming is minimal but acceptable given the simplicity of the logic. | The code lacks any documentation or comments, though the logic is straightforward enough to follow. | The logic correctly handles the trailing zero requirement specified in the problem. | The code is missing a return statement at the end of main, which is standard practice in C++.",gemini-3.1-flash-lite,gemini,,85.0,0.95,B,"The student submission correctly implements the reverse digit logic and handles trailing zeroes by stripping them off before the reversal process begins. However, it fails if the input is zero or a multiple of 10 that reduces completely to zero, though the problem statement mentions a 'positive integer n'.","Input: 1200 | Expected: 21 | Likely behavior: 21 | Why: The leading while loop strips the trailing zeros (making n 12), and the second loop prints digits in reverse. | Input: 100 | Expected: 1 | Likely behavior: 1 | Why: Trailing zeros are correctly ignored.",gemini-3.5-flash-lite,gemini,,85.0,0.95,B,"The student submission correctly implements reversing a positive integer while ignoring trailing zeros using standard arithmetic. However, it fails to handle the edge case where the input is entirely composed of zeros (e.g., '0' or '000'), which causes the first while loop to execute infinitely because `0 % 10 == 0` is always true.","Successfully handles standard positive integers and numbers with trailing zeros. | Fails on the edge case where the input is 0, leading to an infinite loop because 0 % 10 is 0.",gemini-3.5-flash-lite,gemini,,95.0,1,A,"The algorithm is efficient and correctly handles the problem constraints, including the requirement to ignore trailing zeros.","The algorithm uses a simple loop to strip trailing zeros, followed by a standard digit-reversal loop. | Time complexity is O(log10(n)), which is optimal for processing the digits of an integer. | Space complexity is O(1), as it uses a constant amount of extra space. | The logic correctly handles the edge case of trailing zeros as specified in the problem statement.",gemini-3.1-flash-lite,gemini,,"Write a C++ program that takes a positive integer n as input from the user and prints a number m whose digits are in reverse order as compared to n. If the number ends in one or more zeroes, then those zeroes should be ignored while printing the reverse.","#include<iostream>
+int main(){
+int n;
+std::cin>>n;
+while(n%10==0){n=n/10;}
+while(n>0){std::cout<<n%10;n=n/10;}}"
+2026-09-16T08:15:29.094674+00:00,all_samples:13,mix:mixed,gemini-3.1-flash-lite | gemini-3.5-flash-lite | qwen2.5-coder:14b,gemini | ollama,Overall program correctness,A,A,86.95,0.9776,85.0,1,B,The program correctly reverses the digits of the input number and ignores trailing zeroes.,The program correctly reads a positive integer from the user. | It reverses the digits of the number by repeatedly extracting the last digit and printing it. | The program handles trailing zeroes correctly by not printing them.,qwen2.5-coder:14b,ollama,,90.0,1,A,"The code is concise, readable, and follows standard C++ conventions. It correctly implements the logic for reversing an integer while handling trailing zeros implicitly.","Naming of variables 'n' and 'x' is standard for simple mathematical algorithms, though slightly more descriptive names could improve readability. | Formatting is consistent and indentation is clear. | The logic is efficient and avoids unnecessary complexity. | No dead or duplicated code present. | The use of 'using namespace std;' is acceptable for a simple student program.",gemini-3.1-flash-lite,gemini,,88.0,0.95,B,"The student submission correctly implements the core logic for reversing the digits of a positive integer using modulo and division operations. It successfully handles the requirement of ignoring trailing zeros because extracting digits from the end of the number naturally omits them (e.g., 120 -> 0 then 2 then 1, printed as 021, wait—let's check if trailing zeros are actually ignored correctly). For n = 120, x=0, n=12, prints '0'; then x=2, n=1, prints '2'; then x=1, n=0, prints '1'. So it prints '021' instead of ignoring the trailing zero. Thus, for 120, it prints '021' rather than '21'.","Input: 120 | Expected: 21 | Likely behavior: 021 | Why: The program extracts the last digit (0) first and prints it immediately, rather than ignoring trailing zeros as specified in the problem statement.",gemini-3.5-flash-lite,gemini,,85.0,1,B,"The student's submission correctly handles the core logic of reversing a positive integer's digits by extracting the last digit and performing integer division. It also implicitly handles trailing zeros correctly because leading zeros in the reversed number are naturally printed as the last digits of the reversal (e.g., input 120 gives 021, though the problem says 'zeroes should be ignored while printing the reverse', meaning standard extraction yields 021 or 21 depending on interpretation; wait, 120 reversed mathematically is 021, and standard integer math prints '021' or '21' if explicitly stripped). However, the code does not explicitly strip trailing zeros that become leading zeros in the output if interpreted strictly as ignoring leading zeros, though standard integer extraction outputs them.","Correctly uses modulo and division to extract digits in reverse order. | Handles positive integer inputs as specified. | For numbers ending in zero (e.g., 120), the code prints '021' rather than omitting the trailing zero entirely to output '21', which might slightly conflict with 'those zeroes should be ignored while printing the reverse' depending on the strict interpretation of ignoring trailing zeros. | No explicit handling for single-digit numbers or maximum integer overflow bounds, though standard `int` types suffice for typical inputs.",gemini-3.5-flash-lite,gemini,,95.0,1,A,"The algorithm correctly reverses the integer using modulo and division operations, which is the standard and efficient approach for this problem.","Time complexity is O(log10(n)), which is optimal for processing digits of an integer. | Space complexity is O(1) as it uses a constant amount of extra space. | The logic correctly handles trailing zeros by printing them as part of the reversal process, which is consistent with standard integer reversal behavior (e.g., 120 becomes 021, which prints as 21). | The algorithm is highly efficient and well-suited for the constraints of integer manipulation.",gemini-3.1-flash-lite,gemini,,"Write a C++ program that takes a positive integer n as input from the user and prints a number m whose digits are in reverse order as compared to n. If the number ends in one or more zeroes, then those zeroes should be ignored while printing the reverse.","#include<iostream>
+using namespace std;
+int main()
+{
+int n,x;
+cin>>n;
+while(n>0)
+{
+x=n%10;
+n=(n-x)/10;
+cout<<x;
+}
+}"
+2026-09-16T08:16:00.713254+00:00,all_samples:14,mix:mixed,gemini-3.1-flash-lite | gemini-3.5-flash-lite | qwen2.5-coder:14b,gemini | ollama,Overall program correctness,A,A,90.95,0.9702,85.0,1,B,"The program correctly reverses the digits of the input number and prints the result. However, it does not handle trailing zeroes as specified in the problem statement.",The program correctly reverses the digits of the input number. | The program does not ignore trailing zeroes in the reversed number.,qwen2.5-coder:14b,ollama,,92.0,1,A,"The code is concise, readable, and correctly implements the logic for reversing an integer. The style is standard for a beginner C++ submission.","Variable naming is somewhat cryptic (n, m, t), though acceptable for a short, simple algorithm. | Formatting is consistent and indentation is clear. | The code is efficient and avoids unnecessary complexity. | Lack of input validation or user prompts is common for this level of assignment and does not significantly impact maintainability for such a small snippet.",gemini-3.1-flash-lite,gemini,,100,0.95,A,"The student submission correctly implements the requested functionality using standard arithmetic. When a number ends in trailing zeroes (e.g., 120), the standard modulo and multiplication reversal method naturally accumulates the leading zeroes as lower-order digits during reversal, which mathematically evaluates to dropping them when printed as an integer (e.g., 021 prints as 21).","Input: 120 | Expected: 21 | Likely behavior: 21 | Why: The reversal loop produces m = 0*10 + 0 = 0, then m = 0*10 + 2 = 2, then m = 2*10 + 1 = 21, which correctly ignores the trailing zero of the input.",gemini-3.5-flash-lite,gemini,,95.0,1,A,"The student's submission correctly handles the core requirement of reversing a positive integer. Specifically, trailing zeros in the input (e.g., 1200) naturally become leading zeros when reversed mathematically, and printing the resulting integer variable 'm' automatically strips those leading zeros, perfectly satisfying the edge-case requirement to ignore trailing zeros.","Input trailing zeros naturally handled: For an input like 1200, t=0, m=0; t=0, m=0; t=2, m=2; t=1, m=21. Printing m outputs 21, correctly ignoring the trailing zeros. | Positive integer constraint: The problem specifies a positive integer n, and the loop condition (n > 0) correctly processes all digits. | Minor potential issue with 32-bit integer overflow if extremely large inputs are provided, but this is standard for basic competitive programming / introductory problems unless specified otherwise.",gemini-3.5-flash-lite,gemini,,100,1,A,"The algorithm correctly reverses the integer using a standard mathematical approach, which naturally handles trailing zeros by omitting them in the resulting integer representation.","The time complexity is O(log n) where log n is the number of digits in the input integer. | The space complexity is O(1) as it uses a fixed number of integer variables. | The approach is optimal for the given problem constraints. | The logic correctly handles the requirement to ignore trailing zeros, as the integer type 'm' will not store leading zeros when the reversed number is constructed.",gemini-3.1-flash-lite,gemini,,"Write a C++ program that takes a positive integer n as input from the user and prints a number m whose digits are in reverse order as compared to n. If the number ends in one or more zeroes, then those zeroes should be ignored while printing the reverse.","#include<iostream>
+using namespace std;
+int main(){
+int n,m=0,t;
+cin>>n;
+while(n>0){
+t=n%10;
+m=m*10+t;
+n=n/10;}
+cout<<m;
+}"
+2026-09-16T08:16:41.930482+00:00,all_samples:15,mix:mixed,gemini-3.1-flash-lite | gemini-3.5-flash-lite | qwen2.5-coder:14b,gemini | ollama,Overall program correctness,B,B,77.5,0.9702,75.0,1,C,"The program implements the Babylonian Algorithm to approximate the square root of a given positive real number. However, there is a minor issue with the output precision.",The program correctly implements the Babylonian Algorithm to approximate the square root. | The program takes a floating-point value as input and performs the necessary calculations. | The program outputs the final approximation of the square root. | The output precision is set to two decimal places instead of three as required.,qwen2.5-coder:14b,ollama,,75.0,1,C,"The code is functional and follows the Babylonian algorithm correctly, but it fails to meet the specific output formatting requirement and contains a minor logic flaw in the loop condition.","The problem required rounding to three decimal places, but the code uses cout.precision(2). | The loop condition 'abs(n-sqrt) > 0.001' uses 'n' before it is initialized, which is technically undefined behavior, though it happens to work here because the loop body executes at least once. | Variable naming is concise but acceptable for a small script. | Formatting is consistent and the code is readable. | The use of 'sqrt' as a variable name is poor practice as it shadows the standard library function, potentially causing confusion.",gemini-3.1-flash-lite,gemini,,85.0,1,B,"The student correctly implements the iterative Babylonian algorithm for square root approximation. However, there is a formatting/precision discrepancy: the problem statement requests rounding to three digits after the decimal point, whereas the student's code uses cout.precision(2).","Input: x = 2.0 | Expected: 1.414 (rounded to three digits) | Likely behavior: 1.41 (rounded to two digits) | Why: The student explicitly configured cout.precision(2), which contradicts the problem requirement of three digits after the decimal point.",gemini-3.5-flash-lite,gemini,,85.0,0.95,B,"The student successfully implements the core logic of the Babylonian algorithm for approximating square roots. However, there is a mismatch between the formatting requirements: the problem statement explicitly asks to round to three digits after the decimal point, but the student's code uses cout.precision(2) to print two digits.","The program correctly initializes the approximation and uses an absolute difference threshold of 0.001 in the loop condition, handling typical positive real inputs well. | Edge case: For x = 0, division by zero occurs because sqrt is initialized to x (0), leading to x/sqrt (0/0) resulting in NaN/inf issues. | Formatting discrepancy: The problem requires rounding to three digits after the decimal point, but the code implements `cout.precision(2);` which outputs two digits.",gemini-3.5-flash-lite,gemini,,70.0,1,C,"The algorithm correctly implements the Babylonian method, but the output formatting fails to meet the problem requirement of three decimal places.","The Babylonian algorithm implementation is logically correct and converges efficiently. | Time complexity is O(log(x/epsilon)), which is optimal for this iterative approach. | Space complexity is O(1), which is optimal. | The problem explicitly requested rounding to three decimal places, but the code uses 'cout.precision(2)', resulting in two decimal places. | The loop condition 'abs(n-sqrt)>0.001' is sufficient for the requested precision, though slightly loose.",gemini-3.1-flash-lite,gemini,,Write a C++ program that implements the Babylonian Algorithm to approximate the square root of any given positive real number. The program should take a floating-point value as input and print the final approximation of the square root rounded to three digits after the decimal point.,"#include<simplecpp>
+main_program{
+	float x,sqrt;
+	cin>>x;
+	sqrt=x;
+
+	for (float n=0;abs(n-sqrt)>0.001;){
+		n=sqrt;
+		sqrt=(sqrt+(x/sqrt))/2;	
+	}
+
+	cout<<fixed;
+	cout.precision(2);
+	cout<<sqrt<<endl;
+}"
+2026-09-16T08:17:39.352796+00:00,all_samples:16,mix:mixed,gemini-3.1-flash-lite | gemini-3.5-flash-lite | qwen2.5-coder:14b,gemini | ollama,Overall program correctness,B,A,85.0,0.9554,85.0,1,B,"The program correctly handles addition, subtraction, multiplication, and division of complex numbers, but it lacks error handling for invalid operations and does not format the output with exactly 3 digits after the decimal point for division.","The program correctly performs addition, subtraction, multiplication, and division of complex numbers. | The output is formatted with 3 digits after the decimal point for addition, subtraction, and multiplication. | The program does not handle invalid operations (e.g., non-'A', 'M', 'S', 'D' characters) gracefully. | The output for division is formatted with 3 digits after the decimal point, but the precision might be affected by floating-point arithmetic.",qwen2.5-coder:14b,ollama,,75.0,1,C,"The code is functional but suffers from poor formatting, redundant output statements, and unnecessary user-facing prompts that interfere with the expected input/output flow.","The program includes unnecessary 'cout' statements for spaces and newlines during the input phase, which violates standard input/output expectations for automated grading. | The code structure uses deeply nested 'if-else' statements, which reduces readability. | Formatting is inconsistent, with erratic indentation throughout the file. | The 'fixed' and 'precision' settings are repeated inside every branch of the conditional logic, violating the DRY (Don't Repeat Yourself) principle. | Variable naming is clear and descriptive, which helps maintainability despite the structural issues.",gemini-3.1-flash-lite,gemini,,85.0,0.95,B,"The student's submission correctly implements complex number addition, subtraction, multiplication, and division using standard formulas and properly formats the output to 3 decimal places. However, it writes unexpected spaces to standard output during the input reading phase (due to `cout << "" "";` statements), which may cause issues if an automated grader expects strictly output-only behavior after computation.","Input: 1.0 2.0 3.0 4.0 A | Expected: 4.000 6.000 | Likely behavior: Prints stray spaces while reading inputs, then prints '4.000 6.000' | Why: The student included `cout << "" "";` statements right after reading each input token, which interferes with clean output redirection.",gemini-3.5-flash-lite,gemini,,85.0,0.95,B,"The student's submission correctly handles standard complex number operations (addition, subtraction, multiplication, and division) with the required precision formatting. However, from an edge-case perspective, the division operation lacks a check for division by zero (when the denominator real2^2 + imag2^2 equals zero), which can lead to undefined behavior or infinity/NaN outputs.","Division by zero is not handled: if both real2 and imag2 are zero, the denominator (real2*real2 + imag2*imag2) evaluates to zero, causing a division by zero error. | The multiplication formula for the imaginary part is correct: (real1*imag2 + real2*imag1). | The division formula correctly implements complex conjugation in the denominator. | Output formatting correctly uses fixed precision with 3 decimal places.",gemini-3.5-flash-lite,gemini,,95.0,1,A,"The algorithm uses basic arithmetic operations for complex number manipulation, resulting in O(1) time and space complexity, which is optimal for this problem.","The time complexity is O(1) as it performs a constant number of arithmetic operations regardless of input values. | The space complexity is O(1) as it uses a fixed number of variables. | The approach is highly efficient and well within the constraints for processing two complex numbers. | The logic correctly implements complex arithmetic (addition, subtraction, multiplication, and division).",gemini-3.1-flash-lite,gemini,,"Write a program that takes as input two complex numbers and performs one of the following operations on them: addition, subtraction, multiplication, or division. The output should be the result of the operation, with 3 digits after the decimal point. The input should be two pairs of floating-point numbers indicating the real and imaginary parts of the complex numbers, separated by spaces, followed by a letter indicating the operation to be performed. The output should be two space-separated numbers, with the real part followed by the imaginary part.","#include<simplecpp>
+main_program{
+float real1,imag1,real2,imag2;
+char c;
+cin>>real1;
+cout<<"" "";
+cin>>imag1;
+cout<<"" "";
+cin>>real2;
+cout<<"" "";
+cin>>imag2;
+cout<<"" "";
+cin>>c;
+cout<<endl;
+         if(c=='A'){
+	cout << fixed;
+        cout.precision(3);	 
+	cout<<real1+real2<<"" ""<<imag1+imag2<<endl;
+	 }
+	 else{if(c=='M'){
+         cout << fixed;
+         cout.precision(3);
+	 cout<<(real1*real2 -imag1*imag2)<<"" ""<<(real1*imag2 + real2*imag1);
+	 }
+	 else{
+	 if(c=='S'){
+	  cout << fixed;
+        cout.precision(3);
+        cout<<real1-real2<<"" ""<<imag1-imag2<<endl;
+         }
+	 else{
+	 if(c=='D'){
+          cout << fixed;
+        cout.precision(3);
+        cout<<(real1*real2 +imag1*imag2)/(real2*real2 +imag2*imag2)<<"" ""<<(-1*real1*imag2 + real2*imag1)/(real2*real2 +imag2*imag2);
+
+         }
+
+	 }
+
+	 }
+	 }
+	 }"
+2026-09-16T08:18:29.117131+00:00,all_samples:17,mix:mixed,gemini-3.1-flash-lite | gemini-3.5-flash-lite | qwen2.5-coder:14b,gemini | ollama,Overall program correctness,B,B,80.7,0.9608,85.0,1,B,"The program correctly implements the Babylonian Algorithm to approximate the square root of a given positive real number. It takes a floating-point value as input and prints the final approximation of the square root rounded to three digits after the decimal point. However, the program does not output the result.",The Babylonian Algorithm is correctly implemented in the `srt` function. | The program reads a floating-point number from the user. | The `srt` function calculates the square root approximation and sets the precision to three decimal places. | The program does not print the result of the square root approximation.,qwen2.5-coder:14b,ollama,,75.0,0.95,C,The code implements the Babylonian algorithm correctly but suffers from poor design choices regarding function responsibility and output formatting.,"The function 'srt' performs both calculation and output, which violates the principle of separation of concerns. | The output formatting (cout.precision) is set inside the calculation function rather than in the main program, making the function less reusable. | The program fails to print the result to the console because the main_program calls the function but does not output the returned value. | Variable naming is generally clear, though 'srt' is a slightly cryptic abbreviation for 'sqrt'. | The use of 'simplecpp' is non-standard for general C++ development but acceptable within the context of specific introductory courses.",gemini-3.1-flash-lite,gemini,,88.0,0.95,B,"The student submission implements the Babylonian algorithm correctly using a fixed number of iterations (100) and attempts to format the output precision using `cout.precision(3)`. However, there are minor structural issues: `srt` returns a float but prints the precision internally before returning, and `main_program` calls `srt(input_number)` without printing the returned value to standard output, meaning no final approximation is actually printed to the console by the main program.","Input: 25.0 | Expected: 5.000 printed to standard output | Likely behavior: The function computes 5.0 and sets precision on cout, but main_program discards the return value and prints nothing to stdout. | Why: The function srt performs the print configuration internally and returns a value, but the main program does not output the result of srt.",gemini-3.5-flash-lite,gemini,,70.0,1,C,"The student implements the Babylonian algorithm using a fixed number of iterations. However, it fails to print the returned result in the main program (only the function sets the precision, but no print statement is executed in main), and lacks robust handling for boundary inputs like zero or negative numbers which could lead to division by zero.","Input of zero causes division by zero (input_number / x) within the Babylonian algorithm loop. | The main function calls srt(input_number) but does not print the result, meaning the program produces no output. | Using a fixed number of 100 iterations avoids infinite loops for valid positive inputs, but does not check for convergence boundaries.",gemini-3.5-flash-lite,gemini,,70.0,1,C,"The algorithm correctly implements the Babylonian method, but the implementation violates functional design principles and fails to output the result as requested.","The Babylonian algorithm implementation is mathematically correct and converges efficiently within 100 iterations. | The time complexity is O(N) where N is the number of iterations (constant 100), which is optimal for this approach. | The space complexity is O(1), which is optimal. | The function 'srt' performs I/O operations (cout) inside the calculation logic, which is poor practice. | The program fails to print the result to the console because the 'main_program' calls the function but does not output the returned value. | The precision setting is applied inside the function but is not utilized because the return value is never printed.",gemini-3.1-flash-lite,gemini,,Write a C++ program that implements the Babylonian Algorithm to approximate the square root of any given positive real number. The program should take a floating-point value as input and print the final approximation of the square root rounded to three digits after the decimal point.,"#include<simplecpp>
+float srt(float input_number){
+    float x;
+    x = input_number;
+    repeat(100){
+        x =((x+ input_number/x)/2 );
+    }
+    cout.precision(3);
+    return (x);
+}
+main_program{
+    float input_number;
+    cin>>input_number;
+    srt(input_number);
+}"
+2026-09-16T08:19:13.373677+00:00,all_samples:18,mix:mixed,gemini-3.1-flash-lite | gemini-3.5-flash-lite | qwen2.5-coder:14b,gemini | ollama,Overall program correctness,B,A,85.75,0.988,85.0,1,B,"The program correctly implements the Babylonian Algorithm to approximate the square root of a given positive real number and rounds the result to three decimal places. However, it does not handle the case where the input number is zero or negative, which is a minor issue.","The program correctly uses the Babylonian Algorithm to approximate the square root. | The result is rounded to three decimal places as required. | The program does not handle the case where the input number is zero or negative, which is a minor issue.",qwen2.5-coder:14b,ollama,,88.0,1,B,"The code is functional and implements the algorithm correctly. The style is generally readable, though the rounding logic is manual and somewhat unconventional.","Variable naming is somewhat generic (x, a, b, c), which makes the logic slightly harder to follow than descriptive names would. | The manual rounding logic using integer casting is functional but less idiomatic than using standard library functions like fixed and setprecision. | The formatting is consistent and the structure is simple and easy to follow. | The use of 'simplecpp' is acceptable for this context, though it is non-standard for general C++ development. | The code lacks comments, though the logic is simple enough that it remains maintainable.",gemini-3.1-flash-lite,gemini,,88.0,1,B,"The student implements the Babylonian algorithm correctly using a fixed number of iterations (5 repetitions) and handles rounding to three decimal places using custom formatting logic. However, the manual formatting logic introduces minor output artifacts for certain numbers (e.g., trailing zeros or formatting quirks when the third decimal place is zero).","Input: 2.0 | Expected: 1.414 | Likely behavior: Prints 1.414 | Why: Standard float-to-int conversion properly handles this case. | Input: 4.0 | Expected: 2.000 | Likely behavior: Prints 2.0.000 | Why: For c = 2.0, c == int(c) is true, triggering the custom branch cout << c << "".000"", resulting in 2.0.000 which has an extra decimal point.",gemini-3.5-flash-lite,gemini,,85.0,0.95,B,"The student implements the Babylonian algorithm using a fixed number of iterations (5 repetitions). While this converges well for many standard positive numbers, it lacks convergence-based stopping conditions and exhibits edge-case formatting and behavior issues around zero, negative inputs, and rounding formatting.","Zero or negative inputs: The problem specifies a 'positive real number', but if zero is entered, `input_number/x` causes a division by zero / NaN state. | Fixed iteration count: Using a fixed `repeat(5)` works reasonably for moderate numbers, but can be insufficient for very large or very small numbers, or over-precise for numbers close to 1. | Formatting quirk: The custom rounding logic `if (c == int(c))` appends '.000', which can fail to produce the required three decimal places for numbers ending in trailing zeros (e.g., printing '3.0' instead of '3.000' depending on standard cout formatting, though the explicit branch tries to handle integer results).",gemini-3.5-flash-lite,gemini,,85.0,1,B,"The Babylonian algorithm implementation is efficient and correct, but the output formatting logic is flawed for certain edge cases.","The Babylonian algorithm implementation has a time complexity of O(k) where k is the number of iterations (fixed at 5), which is O(1) and highly efficient. | Space complexity is O(1) as it uses a constant number of variables. | The rounding logic using truncation (int(a)/1000.0) is mathematically sound for the requested precision. | The output formatting logic fails to consistently print exactly three decimal places (e.g., if the result is 2.5, it prints 2.5 instead of 2.500, or if the result is 2.0, it prints 2.0.000). | The algorithm is well-suited for the problem constraints.",gemini-3.1-flash-lite,gemini,,Write a C++ program that implements the Babylonian Algorithm to approximate the square root of any given positive real number. The program should take a floating-point value as input and print the final approximation of the square root rounded to three digits after the decimal point.,"#include<simplecpp>
+main_program{
+	double input_number;
+	cin>>input_number;
+	double x;
+	x= input_number;
+	repeat(5){
+		x=(x + input_number/x)/2;
+	}
+	double a=x*1000;
+	int b= int(a);
+	double c= b/1000.0;
+	if ( c==int(c)){
+		cout<<c<<"".000"";
+	}
+	else{
+	cout<<c;
+	}
+}"
+2026-09-16T08:20:13.331881+00:00,all_samples:19,mix:mixed,gemini-3.1-flash-lite | gemini-3.5-flash-lite | qwen2.5-coder:14b,gemini | ollama,Overall program correctness,B,B,77.0,0.9094,75.0,0.9,C,"The program correctly converts binary integer and fractional parts to decimal and sums them. However, it does not format the output to two decimal places.","The `intBinary` function correctly converts an integer binary number to its decimal equivalent. | The `rev` function reverses the digits of an integer, which is used in `decBinary` to process the fractional part correctly. | The `decBinary` function correctly converts a fractional binary number to its decimal equivalent. | The `main_program` correctly reads two binary numbers, converts them using the respective functions, and prints the sum. | The output is not formatted to two decimal places, which is a minor issue.",qwen2.5-coder:14b,ollama,,75.0,0.95,C,"The code is functional and logically sound, but it fails to meet the specific output formatting requirements stated in the problem and lacks basic documentation/readability standards.","The program fails to round the output to two decimal places as explicitly requested in the problem statement. | The code lacks comments or documentation, making the logic slightly harder to follow for a beginner. | Variable names like 'a', 'b', 't', and 'ans' are generic and do not clearly describe their purpose, which hinders maintainability. | The use of 'simplecpp' is non-standard for general C++ environments, though it does not affect the logic. | The structure is clean and modular, correctly separating the integer and fractional conversion logic into functions.",gemini-3.1-flash-lite,gemini,,85.0,0.95,B,"The student submission implements the core logic correctly using separate functions for the integer and fractional binary parts, and adds them together. However, it misses the requirement to format the output rounded to two decimal places using stream manipulators like std::fixed and std::setprecision.","Input: a = 101, b = 1 | Expected: 5.50 (with 2 decimal digits formatted) | Likely behavior: Prints 5.5 without forcing trailing zeros or specific rounding formatting via stream manipulators | Why: The code uses basic cout << total without std::fixed and std::setprecision.",gemini-3.5-flash-lite,gemini,,85.0,1,B,"The student's solution correctly implements the conversion of integer and fractional binary parts using functions and sums them up. However, it misses the specific output formatting requirement to print the result rounded to two decimal places using cout modifiers (like fixed and setprecision), and the reversal logic for the fractional part may fail with certain trailing zero inputs.","The program does not use fixed and setprecision to explicitly ensure the output is displayed rounded to two decimal places as requested in the problem statement. | The use of a reverse function (`rev`) for the fractional part assumes the input is read as an integer, which strips leading zeros. For example, a fractional binary input of '001' is stored as integer 1, which 'rev' turns into 1 rather than maintaining positional weight from left to right directly without padding. | Boundary cases like inputting 0 for both integer and fractional parts work correctly due to the loop conditions.",gemini-3.5-flash-lite,gemini,,65.0,1,C,"The algorithm correctly implements the conversion logic, but fails to meet the specific output formatting requirement stated in the problem.","The time complexity is O(log N) where N is the magnitude of the binary input, which is optimal for this problem. | The space complexity is O(1), which is optimal. | The program fails to meet the requirement to print the result rounded to two decimal places, as it lacks the 'fixed' and 'setprecision(2)' manipulators. | The logic for converting the integer and fractional parts is correct and efficient. | The use of 'rev' to handle the fractional part is a clever way to process digits from left to right.",gemini-3.1-flash-lite,gemini,,"Write a C++ program to convert a binary number (that may contain a fractional part) into its corresponding decimal value. The program should take two binary values as input, one representing the number before the radix point and the other representing the number after the radix point. The program should convert the binary values into their corresponding decimal values and print the resulting value rounded to two decimal places. The program should use functions to convert the integer and fractional binary parts into integer and double values, respectively, and add the integer and double values to obtain the final decimal value. The program should use the cout statement to print the resulting value with two digits after the decimal point.","#include<simplecpp>
+int intBinary(int a){
+	int ans =0, t=1;
+	while(a>0){
+		ans += (a%10)*t;
+		t *= 2;
+		a /= 10;
+	}
+	return ans;
+}
+int rev(int a){
+	int ans=0;
+	while(a>0){
+		ans = ans*10 + (a%10);
+		a /= 10;
+	}
+	return ans;
+}
+double decBinary(int b){
+	int a = rev(b);
+	double ans =0 , t =0.5;
+	while(a>0){
+		ans += (a%10) *t;
+		t *= 0.5;
+		a /= 10;
+	}
+	return ans;
+}
+main_program{
+	int a,b;
+	cin>>a>>b;
+	double total = intBinary(a) + decBinary(b);
+	cout<<total;
+}"

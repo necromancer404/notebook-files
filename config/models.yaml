@@ -12,6 +12,19 @@ presets:
     temperature: 0.2
     max_tokens: 4096
     timeout_seconds: 120
+  
+  gemma-4-26b:
+    label: Gemma 4 26B
+    provider: gemini
+    model: gemma-4-26b-a4b-it
+    api_key_env: GEMINI_API_KEY
+    base_url_env: GEMINI_BASE_URL
+    base_url: https://generativelanguage.googleapis.com/v1beta
+    temperature: 0.2
+    max_tokens: 4096
+    timeout_seconds: 120
+
+
   gemini-3.5-flash-lite:
     label: Gemini 3.5 Flash-Lite
     provider: gemini
@@ -22,6 +35,7 @@ presets:
     temperature: 0.2
     max_tokens: 4096
     timeout_seconds: 120
+
   groq:
     label: Groq GPT-OSS 120B
     provider: groq
@@ -32,6 +46,29 @@ presets:
     token_field: max_completion_tokens
     max_tokens: 4096
     timeout_seconds: 90
+
+  openai/gpt-oss-20b:
+    label: Groq GPT-OSS 20B
+    provider: groq
+    model: openai/gpt-oss-20b
+    api_key_env: GROQ_API_KEY
+    base_url_env: GROQ_BASE_URL
+    base_url: https://api.groq.com/openai/v1
+    token_field: max_completion_tokens
+    max_tokens: 4096
+    timeout_seconds: 90
+
+  qwen/qwen3.8-27b:
+    label: qwen3.8-27b
+    provider: groq
+    model: qwen/qwen3.8-27b
+    api_key_env: GROQ_API_KEY
+    base_url_env: GROQ_BASE_URL
+    base_url: https://api.groq.com/openai/v1
+    token_field: max_completion_tokens
+    max_tokens: 4096
+    timeout_seconds: 90
+
 
   groq-llama:
     label: Groq Llama 3.3 70B
@@ -139,6 +176,29 @@ presets:
     extra_body:
       think: false
 
+  qwen2.5-coder:7b:
+      label: Qwen2.5 7B via Ollama
+      provider: ollama
+      model: qwen2.5-coder:7b
+      api_key_env: OLLAMA_API_KEY
+      base_url_env: OLLAMA_BASE_URL
+      base_url: http://localhost:11434
+      max_tokens: 4096
+      timeout_seconds: 180
+      extra_body:
+        think: false
+
+  granite-code:3b:
+      label: granite-code:3b via Ollama
+      provider: ollama
+      model: granite-code:3b
+      api_key_env: OLLAMA_API_KEY
+      base_url_env: OLLAMA_BASE_URL
+      base_url: http://localhost:11434
+      max_tokens: 4096
+      timeout_seconds: 180
+
+
   qwen2.5-coder:14b:
       label: Qwen2.5 14B via Ollama
       provider: ollama
@@ -150,16 +210,77 @@ presets:
       timeout_seconds: 180
       extra_body:
         think: false
+  qwen2.5-coder:3b:
+      label: Qwen2.5 3B via Ollama
+      provider: ollama
+      model: qwen2.5-coder:3b
+      api_key_env: OLLAMA_API_KEY
+      base_url_env: OLLAMA_BASE_URL
+      base_url: http://localhost:11434/
+      max_tokens: 4096
+      timeout_seconds: 180
+      extra_body:
+        think: false
+  starcoder2:3b:
+      label: starcoder2:3b via Ollama
+      provider: ollama
+      model: starcoder2:3b
+      api_key_env: OLLAMA_API_KEY
+      base_url_env: OLLAMA_BASE_URL
+      base_url: http://localhost:11434/
+      max_tokens: 4096
+      timeout_seconds: 180
+      extra_body:
+        think: false
+  codegemma:2b :
+      label: codegemma:2b  via Ollama
+      provider: ollama
+      model: codegemma:2b 
+      api_key_env: OLLAMA_API_KEY
+      base_url_env: OLLAMA_BASE_URL
+      base_url: http://localhost:11434/
+      max_tokens: 4096
+      timeout_seconds: 180
+      extra_body:
+        think: false
     
+  gemma3:1b:
+      label: gemma3:1b via Ollama
+      provider: ollama
+      model: gemma3:1b
+      api_key_env: OLLAMA_API_KEY
+      base_url_env: OLLAMA_BASE_URLL
+      base_url: http://192.168.0.5:11434
+      max_tokens: 4096
+      timeout_seconds: 180
+      extra_body:
+        think: false
+
+        
+  qwen3:1.7b:
+      label: qwen3:1.7b via Ollama
+      provider: ollama
+      model: qwen3:1.7b
+      api_key_env: OLLAMA_API_KEY
+      base_url_env: OLLAMA_BASE_URLL
+      base_url: http://192.168.0.7:11434
+      max_tokens: 4096
+      timeout_seconds: 180
+      extra_body:
+        think: false
+
+
   gemma3:12b:
       label: gemma3:12b via Ollama
       provider: ollama
       model: gemma3:12b
       api_key_env: OLLAMA_API_KEY
-      base_url_env: OLLAMA_BASE_URL
-      base_url: http://localhost:11434/v1
+      base_url_env: OLLAMA_BASE_URLL
+      base_url: http://192.168.0.7:11434
       max_tokens: 4096
       timeout_seconds: 180
+      extra_body:
+        think: false
 
   deepseek-r1:8b :
       label: deepseek-r1:8b  via Ollama
@@ -167,9 +288,22 @@ presets:
       model: deepseek-r1:8b
       api_key_env: OLLAMA_API_KEY
       base_url_env: OLLAMA_BASE_URL
-      base_url: http://localhost:11434/v1
+      base_url: http://localhost:11434
       max_tokens: 4096
       timeout_seconds: 180
+      extra_body:
+        think: false
+  deepseek-coder:6.7b:
+      label: deepseek-coder:6.7b  via Ollama
+      provider: ollama
+      model: deepseek-coder:6.7b
+      api_key_env: OLLAMA_API_KEY
+      base_url_env: OLLAMA_BASE_URL
+      base_url: http://localhost:11434
+      max_tokens: 4096
+      timeout_seconds: 180
+      extra_body:
+        think: false
 
   cerebras:
     label: Cerebras Qwen 3.8 27B
@@ -217,12 +351,12 @@ mixes:
   mixed:
     label: Gemma correctness, Gemini style/complexity, Cerebras Qwen edge/counter
     agents:
-      correctness: qwen2.5-coder:14b
-      style: gemini
-      complexity: gemini-3.5-flash-lite
-      edge_cases: gemini
-      counteragent: gemini-3.5-flash-lite
-  mixed-nvidia:
+      correctness: qwen2.5-coder:3b
+      style: gemma3:1b
+      complexity: qwen3:1.7b
+      edge_cases: gemini-3.5-flash-lite
+      counteragent: gemini
+  mixed-nvidia: 
     label: NVIDIA models split across agents
     agents:
       correctness: nvidia-deepseek

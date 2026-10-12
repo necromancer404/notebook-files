@@ -113,8 +113,6 @@ class OpenAICompatProvider(LLMProvider):
             body.update(self.settings.extra_body)
         try:
             with httpx.Client(timeout=_client_timeout(self.settings)) as client:
-                print("[DEBUG] REQUEST BODY:")
-                print(body)
                 response = client.post(url, headers=headers, json=body)
                 response.raise_for_status()
                 data = response.json()
