@@ -221,6 +221,7 @@ presets:
       timeout_seconds: 180
       extra_body:
         think: false
+
   starcoder2:3b:
       label: starcoder2:3b via Ollama
       provider: ollama
@@ -250,7 +251,7 @@ presets:
       model: gemma3:1b
       api_key_env: OLLAMA_API_KEY
       base_url_env: OLLAMA_BASE_URL
-      base_url: http://192.168.0.5:11434
+      base_url: http://localhost:11434/
       max_tokens: 4096
       timeout_seconds: 180
       extra_body:
@@ -263,12 +264,84 @@ presets:
       model: qwen3:1.7b
       api_key_env: OLLAMA_API_KEY
       base_url_env: OLLAMA_BASE_URL
-      base_url: http://192.168.0.7:11434
+      base_url: http://localhost:11434/
       max_tokens: 4096
       timeout_seconds: 180
       extra_body:
         think: false
 
+
+  llama3.2:3b:
+      label: llama3.2:3b via Ollama
+      provider: ollama
+      model: llama3.2:3b
+      api_key_env: OLLAMA_API_KEY
+      base_url_env: OLLAMA_BASE_URL
+      base_url: http://localhost:11434/
+      max_tokens: 4096
+      timeout_seconds: 180
+      extra_body:
+        think: false
+
+  stable-code:3b:
+      label: stable-code:3b via Ollama
+      provider: ollama
+      model: stable-code:3b
+      api_key_env: OLLAMA_API_KEY
+      base_url_env: OLLAMA_BASE_URL
+      base_url: http://localhost:11434/
+      max_tokens: 4096
+      timeout_seconds: 180
+      extra_body:
+        think: false
+  
+  phi3.5:
+      label: phi3.5 via Ollama
+      provider: ollama
+      model: phi3.5
+      api_key_env: OLLAMA_API_KEY
+      base_url_env: OLLAMA_BASE_URL
+      base_url: http://localhost:11434/
+      max_tokens: 4096
+      timeout_seconds: 180
+      extra_body:
+        think: false
+  
+  smollm2:1.7b:
+      label: smollm2:1.7b via Ollama
+      provider: ollama
+      model: smollm2:1.7b
+      api_key_env: OLLAMA_API_KEY
+      base_url_env: OLLAMA_BASE_URL
+      base_url: http://localhost:11434/
+      max_tokens: 4096
+      timeout_seconds: 180
+      extra_body:
+        think: false
+  
+  ministral-3:3b:
+      label: ministral-3:3b via Ollama
+      provider: ollama
+      model: ministral-3:3b
+      api_key_env: OLLAMA_API_KEY
+      base_url_env: OLLAMA_BASE_URL
+      base_url: http://localhost:11434/
+      max_tokens: 4096
+      timeout_seconds: 180
+      extra_body:
+        think: false
+  
+  mistral:7b:
+      label: mistral:7b via Ollama
+      provider: ollama
+      model: mistral:7b
+      api_key_env: OLLAMA_API_KEY
+      base_url_env: OLLAMA_BASE_URL
+      base_url: http://localhost:11434/
+      max_tokens: 4096
+      timeout_seconds: 180
+      extra_body:
+        think: false
 
   gemma3:12b:
       label: gemma3:12b via Ollama
@@ -276,7 +349,7 @@ presets:
       model: gemma3:12b
       api_key_env: OLLAMA_API_KEY
       base_url_env: OLLAMA_BASE_URL
-      base_url: http://192.168.0.7:11434
+      base_url: http://localhost:11434/
       max_tokens: 4096
       timeout_seconds: 180
       extra_body:
