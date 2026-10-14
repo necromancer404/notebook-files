@@ -249,7 +249,7 @@ presets:
       provider: ollama
       model: gemma3:1b
       api_key_env: OLLAMA_API_KEY
-      base_url_env: OLLAMA_BASE_URLL
+      base_url_env: OLLAMA_BASE_URL
       base_url: http://192.168.0.5:11434
       max_tokens: 4096
       timeout_seconds: 180
@@ -262,7 +262,7 @@ presets:
       provider: ollama
       model: qwen3:1.7b
       api_key_env: OLLAMA_API_KEY
-      base_url_env: OLLAMA_BASE_URLL
+      base_url_env: OLLAMA_BASE_URL
       base_url: http://192.168.0.7:11434
       max_tokens: 4096
       timeout_seconds: 180
@@ -275,7 +275,7 @@ presets:
       provider: ollama
       model: gemma3:12b
       api_key_env: OLLAMA_API_KEY
-      base_url_env: OLLAMA_BASE_URLL
+      base_url_env: OLLAMA_BASE_URL
       base_url: http://192.168.0.7:11434
       max_tokens: 4096
       timeout_seconds: 180
