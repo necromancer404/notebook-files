@@ -354,6 +354,18 @@ presets:
       timeout_seconds: 180
       extra_body:
         think: false
+  
+  gemma3:4b:
+      label: gemma3:4b via Ollama
+      provider: ollama
+      model: gemma3:4b
+      api_key_env: OLLAMA_API_KEY
+      base_url_env: OLLAMA_BASE_URL
+      base_url: http://localhost:11434/
+      max_tokens: 4096
+      timeout_seconds: 180
+      extra_body:
+        think: false
 
   deepseek-r1:8b :
       label: deepseek-r1:8b  via Ollama
