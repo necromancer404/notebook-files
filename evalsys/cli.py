@@ -108,11 +108,10 @@ def _assignments(agent_flags: list[tuple[str, str]] | None) -> dict[str, str]:
 
 def _print_record(record) -> None:
     tag = f"[{record.preset}] " if record.preset else ""
-    print(f"{tag}{record.sample.sample_id}  total={record.total_score:.2f}  "
-          f"conf={record.overall_confidence:.3f}  grade={record.predicted_grade}")
+    print(f"{tag}{record.sample.sample_id}  total={record.total_score:.2f}")
     for name, verdict in record.verdicts.items():
         err = f"  ERROR={verdict.error}" if verdict.error else ""
-        print(f"  {name:13} {verdict.model:32} score={verdict.score:6.2f}  conf={verdict.confidence:.3f}{err}")
+        print(f"  {name:13} score={verdict.score:6.2f}{err}")
 
 
 def _resolve_sweep(value: str) -> list[str]:

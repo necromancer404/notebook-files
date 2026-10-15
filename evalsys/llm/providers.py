@@ -214,8 +214,5 @@ class MockProvider(LLMProvider):
             text = self.canned
         else:
             score = 40 if "[EMPTY SUBMISSION]" in user else 72
-            text = (
-                '{"score": %s, "confidence": 0.8, "grade": "B", '
-                '"summary": "Mock evaluation.", "findings": ["mock"]}' % score
-            )
+            text = '{"score": %s}' % score
         return LLMResponse(text=text, model=self.settings.model, provider=self.provider_name)

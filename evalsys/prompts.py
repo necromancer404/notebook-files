@@ -2,16 +2,10 @@ from __future__ import annotations
 
 JSON_CONTRACT = """
 Return ONLY valid JSON with this schema:
-{
-  "score": number,
-  "confidence": number,
-  "grade": "A" | "B" | "C" | "D",
-  "summary": string,
-  "findings": string[]
-}
+{"score": number}
+score is a number from 0 to 100.
 Do not wrap the JSON in markdown. Do not add extra keys.
-- Return at most 1 concise finding.
-- Keep the summary as short as possible, preferably one sentence.
+Do not output grade, confidence, summary, findings, or any other text.
 """.strip()
 
 
@@ -76,7 +70,7 @@ Use RUBRIC-GROUNDED STRUCTURED REASONING internally:
 4. Separate major functional failures from minor issues.
 5. Assign a score proportional to the demonstrated level of correctness.
 
-Do not output your hidden reasoning process. Give only a concise evidence-based summary and findings in the required JSON.
+Do not output your hidden reasoning process. Return only the required JSON.
 
 Prioritize:
 - correct problem understanding
@@ -116,7 +110,7 @@ Important:
 - Do not invent constraints.
 - Do not duplicate general correctness complaints unless they specifically involve an edge/boundary condition.
 
-Report the strongest edge case in findings. If no meaningful edge-case weakness is found, say so clearly.
+Use the strongest edge-case evidence only to assign the score. If no meaningful edge-case weakness is found, keep the score high.
 
 {JSON_CONTRACT}""",
 
@@ -133,8 +127,7 @@ Use COUNTEREXAMPLE-GUIDED REASONING + TEST-CASE GENERATION internally:
 4. Determine what the submitted code is likely to do from the code itself.
 5. Report the counterexample only when there is a defensible connection between the input and the suspected failure.
 
-For each strong counterexample, prefer this compact structure in a finding:
-"Input: ... | Expected: ... | Likely behavior: ... | Why: ..."
+Use any strong counterexample only to assign the score. Do not describe it in the output.
 
 Important:
 - Do not claim an actual runtime result unless execution evidence is provided.
@@ -163,7 +156,7 @@ Use STRUCTURED DECOMPOSITION + internal step-by-step reasoning:
 5. Compare the result with the stated constraints.
 6. Decide whether any inefficiency is materially significant for this problem.
 
-Do not output hidden reasoning. Give the final complexity assessment and concise evidence only.
+Do not output hidden reasoning. Return only the required JSON.
 
 Important:
 - Do not invent a complexity requirement when the problem does not provide one.
@@ -198,7 +191,7 @@ Important:
 - Do not grade algorithmic correctness.
 - Do not penalize a style choice simply because you would personally write it differently.
 - Do not require comments unless they are useful or explicitly required.
-- Do not turn minor style imperfections into a major grade reduction.
+- Do not turn minor style imperfections into a major score reduction.
 - Give strong credit when the code is clear and maintainable even if it is not aesthetically perfect.
 
 {JSON_CONTRACT}""",
